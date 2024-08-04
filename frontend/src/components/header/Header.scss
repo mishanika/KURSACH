@@ -1,0 +1,22 @@
+.header {
+  // position: fixed;
+  width: 100%;
+  background: #fff;
+  padding: 15px 0;
+  font-size: 2rem;
+  font-weight: 600;
+
+  display: flex;
+  gap: 50px;
+  justify-content: center;
+
+  a {
+    color: #9d9d9d;
+    cursor: pointer;
+    transition: 0.3s all ease;
+
+    &:hover {
+      color: #8cc152;
+    }
+  }
+}
