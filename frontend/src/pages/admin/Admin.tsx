@@ -14,12 +14,15 @@ import Room from "../../components/create/rooms/Room";
 import MedSchedule from "../../components/create/medSchedule/MedSchedule";
 import MealSchedule from "../../components/create/mealSchedule/MealSchedule";
 import Logs from "../../components/logs/Logs";
+import { ArrowLeft } from "../../assets/svg/ArrowLeft";
+import { ArrowRight } from "../../assets/svg/ArrowRight";
 
 type Response = {
   accessToken: string;
   error: string;
   data: ProfileInfo;
 };
+
 export type Categories = {
   clients: boolean;
   personnel: boolean;
@@ -37,6 +40,7 @@ const Admin: React.FC = () => {
   const navigate = useNavigate();
 
   const [popIsOpen, setPopupIsOpen] = useState({ friends: false, edit: false });
+  const [isCreate, setIsCreate] = useState(true);
   const [categories, setCategories] = useState<Categories>({
     clients: true,
     personnel: false,
@@ -50,22 +54,29 @@ const Admin: React.FC = () => {
 
   return (
     <>
+      {isSeen && <Error />}
       {popIsOpen.edit ? <></> : null}
       <div className="admin-wrapper">
-        {isSeen ? <Error /> : null}
+        <ArrowLeft isCreate={isCreate} setIsCreate={setIsCreate} />
+
         <div className="content">
-          <AdminCategories categories={categories} setCategories={setCategories} />
+          <AdminCategories
+            categories={categories}
+            setCategories={setCategories}
+          />
           <div className="overflow">
-            {categories.clients ? <Client /> : null}
-            {categories.services ? <Service /> : null}
-            {categories.personnel ? <Personal /> : null}
-            {categories.medServices ? <Med /> : null}
-            {categories.rooms ? <Room /> : null}
-            {categories.medSchedule ? <MedSchedule /> : null}
-            {categories.mealSchedule ? <MealSchedule /> : null}
-            {categories.logs ? <Logs itemsPerPage={5} /> : null}
+            {categories.clients && (isCreate ? <Client /> : null)}
+            {categories.services && (isCreate ? <Service /> : null)}
+            {categories.personnel && (isCreate ? <Personal /> : null)}
+            {categories.medServices && (isCreate ? <Med /> : null)}
+            {categories.rooms && (isCreate ? <Room /> : null)}
+            {categories.medSchedule && (isCreate ? <MedSchedule /> : null)}
+            {categories.mealSchedule && (isCreate ? <MealSchedule /> : null)}
+            {categories.logs && <Logs itemsPerPage={5} />}
           </div>
         </div>
+
+        <ArrowRight isCreate={isCreate} setIsCreate={setIsCreate} />
       </div>
     </>
   );
