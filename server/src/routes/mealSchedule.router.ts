@@ -1,23 +1,23 @@
 import express from "express";
-import RoomController from "../controllers/room.controller";
+import MealScheduleController from "../controllers/mealSchedule.controller";
 
-class RoomRouter {
-  roomController: RoomController;
+class MealScheduleRouter {
+  mealScheduleController: MealScheduleController;
 
-  constructor(roomController: RoomController) {
-    this.roomController = roomController;
+  constructor(mealScheduleController: MealScheduleController) {
+    this.mealScheduleController = mealScheduleController;
   }
 
   getRouter() {
     const router = express.Router();
-    router.route("/").get(this.roomController.getRooms);
-    router.route("/create").post(this.roomController.create);
-    router.route("/update").post(this.roomController.update);
-    router.route("/delete").post(this.roomController.delete);
-    router.route("/rent").post(this.roomController.rent);
+    router.route("/").get(this.mealScheduleController.get);
+    router.route("/create").post(this.mealScheduleController.create);
+    router.route("/update").post(this.mealScheduleController.update);
+    router.route("/delete").post(this.mealScheduleController.delete);
+    router.route("/rent").post(this.mealScheduleController.rent);
 
     return router;
   }
 }
 
-export default RoomRouter;
+export default MealScheduleRouter;

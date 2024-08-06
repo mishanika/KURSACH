@@ -1,13 +1,13 @@
-import RoomController from "../controllers/room.controller";
-import RoomService from "../services/room.service";
-import RoomRouter from "../routes/room.router";
+import MedServicesController from "../controllers/medServices.controller";
+import MedServicesService from "../services/medServices.service";
+import MedServicesRouter from "../routes/medServices.router";
 
-const roomService = new RoomService();
-const roomController = new RoomController(roomService);
-const roomRouter = new RoomRouter(roomController);
+const medServicesService = new MedServicesService();
+const medServicesController = new MedServicesController(medServicesService);
+const medServicesRouter = new MedServicesRouter(medServicesController);
 
-export const roomModule = {
-  service: roomService,
-  controller: roomController,
-  router: roomRouter.getRouter(),
+export const medServicesModule = {
+  service: medServicesService,
+  controller: medServicesController,
+  router: medServicesRouter.getRouter(),
 };

@@ -1,21 +1,27 @@
 import { Request, Response } from "express";
-import RoomService from "../services/room.service";
+import MedScheduleService from "../services/medSchedule.service";
 import { decode } from "../utils/utils";
 
-class RoomController {
-  roomService: RoomService;
-  constructor(roomService: RoomService) {
-    this.roomService = roomService;
+class MedScheduleController {
+  medScheduleService: MedScheduleService;
+  constructor(medScheduleService: MedScheduleService) {
+    this.medScheduleService = medScheduleService;
   }
 
-  getRooms = async (req: Request, res: Response) => {
+  get = async (req: Request, res: Response) => {
     try {
-      const rooms = await this.roomService.getRooms();
+      const medSchedules = await this.medScheduleService.get();
 
-      if (rooms.code === 200) {
-        res.status(rooms.code).json({ error: "", accessToken: "", data: rooms.data.rooms });
+      if (medSchedules.code === 200) {
+        res
+          .status(medSchedules.code)
+          .json({
+            error: "",
+            accessToken: "",
+            data: medSchedules.data.medSchedules,
+          });
       } else {
-        res.status(rooms.code).json({ error: rooms.error });
+        res.status(medSchedules.code).json({ error: medSchedules.error });
       }
     } catch (err) {
       console.log(err);
@@ -26,7 +32,7 @@ class RoomController {
 
   create = async (req: Request, res: Response) => {
     try {
-      const backup = await this.roomService.create();
+      const backup = await this.medScheduleService.create();
 
       if (backup.code === 200) {
         res.status(backup.code).json();
@@ -42,7 +48,7 @@ class RoomController {
 
   update = async (req: Request, res: Response) => {
     try {
-      const backup = await this.roomService.update();
+      const backup = await this.medScheduleService.update();
 
       if (backup.code === 200) {
         res.status(backup.code).json();
@@ -58,7 +64,7 @@ class RoomController {
 
   delete = async (req: Request, res: Response) => {
     try {
-      const backup = await this.roomService.delete();
+      const backup = await this.medScheduleService.delete();
 
       if (backup.code === 200) {
         res.status(backup.code).json();
@@ -74,10 +80,10 @@ class RoomController {
 
   rent = async (req: Request, res: Response) => {
     try {
-      const { roomId, accessToken } = req.body;
+      const { medScheduleId, accessToken } = req.body;
       const { id } = decode(accessToken);
 
-      const backup = await this.roomService.rent(roomId, id);
+      const backup = await this.medScheduleService.rent(medScheduleId, id);
 
       if (backup.code === 200) {
         res.status(backup.code).json("");
@@ -92,4 +98,4 @@ class RoomController {
   };
 }
 
-export default RoomController;
+export default MedScheduleController;

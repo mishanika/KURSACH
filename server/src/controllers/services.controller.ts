@@ -1,21 +1,23 @@
 import { Request, Response } from "express";
-import RoomService from "../services/room.service";
+import ServicesService from "../services/services.service";
 import { decode } from "../utils/utils";
 
-class RoomController {
-  roomService: RoomService;
-  constructor(roomService: RoomService) {
-    this.roomService = roomService;
+class ServicesController {
+  servicesService: ServicesService;
+  constructor(servicesService: ServicesService) {
+    this.servicesService = servicesService;
   }
 
-  getRooms = async (req: Request, res: Response) => {
+  get = async (req: Request, res: Response) => {
     try {
-      const rooms = await this.roomService.getRooms();
+      const services = await this.servicesService.get();
 
-      if (rooms.code === 200) {
-        res.status(rooms.code).json({ error: "", accessToken: "", data: rooms.data.rooms });
+      if (services.code === 200) {
+        res
+          .status(services.code)
+          .json({ error: "", accessToken: "", data: services.data.servicess });
       } else {
-        res.status(rooms.code).json({ error: rooms.error });
+        res.status(services.code).json({ error: services.error });
       }
     } catch (err) {
       console.log(err);
@@ -26,7 +28,7 @@ class RoomController {
 
   create = async (req: Request, res: Response) => {
     try {
-      const backup = await this.roomService.create();
+      const backup = await this.servicesService.create();
 
       if (backup.code === 200) {
         res.status(backup.code).json();
@@ -42,7 +44,7 @@ class RoomController {
 
   update = async (req: Request, res: Response) => {
     try {
-      const backup = await this.roomService.update();
+      const backup = await this.servicesService.update();
 
       if (backup.code === 200) {
         res.status(backup.code).json();
@@ -58,7 +60,7 @@ class RoomController {
 
   delete = async (req: Request, res: Response) => {
     try {
-      const backup = await this.roomService.delete();
+      const backup = await this.servicesService.delete();
 
       if (backup.code === 200) {
         res.status(backup.code).json();
@@ -74,10 +76,10 @@ class RoomController {
 
   rent = async (req: Request, res: Response) => {
     try {
-      const { roomId, accessToken } = req.body;
+      const { servicesId, accessToken } = req.body;
       const { id } = decode(accessToken);
 
-      const backup = await this.roomService.rent(roomId, id);
+      const backup = await this.servicesService.rent(servicesId, id);
 
       if (backup.code === 200) {
         res.status(backup.code).json("");
@@ -92,4 +94,4 @@ class RoomController {
   };
 }
 
-export default RoomController;
+export default ServicesController;

@@ -1,13 +1,13 @@
-import RoomController from "../controllers/room.controller";
-import RoomService from "../services/room.service";
-import RoomRouter from "../routes/room.router";
+import MedScheduleController from "../controllers/medSchedule.controller";
+import MedScheduleService from "../services/medSchedule.service";
+import MedScheduleRouter from "../routes/medSchedule.router";
 
-const roomService = new RoomService();
-const roomController = new RoomController(roomService);
-const roomRouter = new RoomRouter(roomController);
+const medScheduleService = new MedScheduleService();
+const medScheduleController = new MedScheduleController(medScheduleService);
+const medScheduleRouter = new MedScheduleRouter(medScheduleController);
 
-export const roomModule = {
-  service: roomService,
-  controller: roomController,
-  router: roomRouter.getRouter(),
+export const medScheduleModule = {
+  service: medScheduleService,
+  controller: medScheduleController,
+  router: medScheduleRouter.getRouter(),
 };

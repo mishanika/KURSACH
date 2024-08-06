@@ -1,21 +1,27 @@
 import { Request, Response } from "express";
-import RoomService from "../services/room.service";
+import MealScheduleService from "../services/mealSchedule.service";
 import { decode } from "../utils/utils";
 
-class RoomController {
-  roomService: RoomService;
-  constructor(roomService: RoomService) {
-    this.roomService = roomService;
+class MealScheduleController {
+  mealScheduleService: MealScheduleService;
+  constructor(mealScheduleService: MealScheduleService) {
+    this.mealScheduleService = mealScheduleService;
   }
 
-  getRooms = async (req: Request, res: Response) => {
+  get = async (req: Request, res: Response) => {
     try {
-      const rooms = await this.roomService.getRooms();
+      const mealSchedule = await this.mealScheduleService.get();
 
-      if (rooms.code === 200) {
-        res.status(rooms.code).json({ error: "", accessToken: "", data: rooms.data.rooms });
+      if (mealSchedule.code === 200) {
+        res
+          .status(mealSchedule.code)
+          .json({
+            error: "",
+            accessToken: "",
+            data: mealSchedule.data.mealSchedule,
+          });
       } else {
-        res.status(rooms.code).json({ error: rooms.error });
+        res.status(mealSchedule.code).json({ error: mealSchedule.error });
       }
     } catch (err) {
       console.log(err);
@@ -26,7 +32,7 @@ class RoomController {
 
   create = async (req: Request, res: Response) => {
     try {
-      const backup = await this.roomService.create();
+      const backup = await this.mealScheduleService.create();
 
       if (backup.code === 200) {
         res.status(backup.code).json();
@@ -42,7 +48,7 @@ class RoomController {
 
   update = async (req: Request, res: Response) => {
     try {
-      const backup = await this.roomService.update();
+      const backup = await this.mealScheduleService.update();
 
       if (backup.code === 200) {
         res.status(backup.code).json();
@@ -58,7 +64,7 @@ class RoomController {
 
   delete = async (req: Request, res: Response) => {
     try {
-      const backup = await this.roomService.delete();
+      const backup = await this.mealScheduleService.delete();
 
       if (backup.code === 200) {
         res.status(backup.code).json();
@@ -74,10 +80,10 @@ class RoomController {
 
   rent = async (req: Request, res: Response) => {
     try {
-      const { roomId, accessToken } = req.body;
+      const { mealScheduleId, accessToken } = req.body;
       const { id } = decode(accessToken);
 
-      const backup = await this.roomService.rent(roomId, id);
+      const backup = await this.mealScheduleService.rent(mealScheduleId, id);
 
       if (backup.code === 200) {
         res.status(backup.code).json("");
@@ -92,4 +98,4 @@ class RoomController {
   };
 }
 
-export default RoomController;
+export default MealScheduleController;

@@ -14,11 +14,11 @@ import { v4 as uuid } from "uuid";
 import { bucket } from "../firebase/firebase";
 import database from "../database/database";
 
-class DBService {
-  getRooms = async (): Promise<ServiceResponse> => {
+class MedScheduleService {
+  get = async (): Promise<ServiceResponse> => {
     const rooms = (
       await database.query(`
-      SELECT * FROM Rooms`)
+      SELECT * FROM MedSchedule`)
     ).recordset;
     return { error: "", code: 200, accessToken: "", data: { rooms: rooms } };
   };
@@ -41,9 +41,13 @@ class DBService {
       SELECT * FROM ClientRoom WHERE room_id = ${roomId}`)
     ).recordset;
 
-   
     if (relations.length) {
-      return { error: "Room is already rented", code: 400, accessToken: "", data: {} };
+      return {
+        error: "Room is already rented",
+        code: 400,
+        accessToken: "",
+        data: {},
+      };
     }
 
     const rooms = (
@@ -55,4 +59,4 @@ class DBService {
   };
 }
 
-export default DBService;
+export default MedScheduleService;

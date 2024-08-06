@@ -1,23 +1,23 @@
 import express from "express";
-import RoomController from "../controllers/room.controller";
+import PersonnelController from "../controllers/personnel.controller";
 
-class RoomRouter {
-  roomController: RoomController;
+class PersonnelRouter {
+  personnelController: PersonnelController;
 
-  constructor(roomController: RoomController) {
-    this.roomController = roomController;
+  constructor(personnelController: PersonnelController) {
+    this.personnelController = personnelController;
   }
 
   getRouter() {
     const router = express.Router();
-    router.route("/").get(this.roomController.getRooms);
-    router.route("/create").post(this.roomController.create);
-    router.route("/update").post(this.roomController.update);
-    router.route("/delete").post(this.roomController.delete);
-    router.route("/rent").post(this.roomController.rent);
+    router.route("/").get(this.personnelController.get);
+    router.route("/create").post(this.personnelController.create);
+    router.route("/update").post(this.personnelController.update);
+    router.route("/delete").post(this.personnelController.delete);
+    router.route("/rent").post(this.personnelController.rent);
 
     return router;
   }
 }
 
-export default RoomRouter;
+export default PersonnelRouter;
