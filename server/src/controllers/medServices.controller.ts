@@ -33,7 +33,7 @@ class MedServicesController {
       const backup = await this.medServicesService.create(req.body);
 
       if (backup.code === 200) {
-        res.status(backup.code).json();
+        res.status(backup.code).json(backup.data);
       } else {
         res.status(backup.code).json({ error: backup.error });
       }
@@ -49,7 +49,7 @@ class MedServicesController {
       const backup = await this.medServicesService.update(req.body);
 
       if (backup.code === 200) {
-        res.status(backup.code).json();
+        res.status(backup.code).json(backup.data);
       } else {
         res.status(backup.code).json({ error: backup.error });
       }

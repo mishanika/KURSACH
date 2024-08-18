@@ -22,7 +22,7 @@ const MedServices: React.FC<Props> = ({ itemsPerPage }) => {
   const [medServices, setMedServices] = useState<MedGet[]>([]);
   const [filtered, setFiltered] = useState<MedGet[]>([]);
   const [itemOffset, setItemOffset] = useState(0);
-  const [filters, setFilters] = useState({ name: "", email: "", number: "" });
+  const [filters, setFilters] = useState({});
 
   const endOffset = itemOffset + itemsPerPage;
 
@@ -45,9 +45,24 @@ const MedServices: React.FC<Props> = ({ itemsPerPage }) => {
     <div className="items-wrapper">
       {isSeen ? <Error /> : null}
       <div className="content">
-        <div className="filters">
+        <div className="filters on-page">
+          <input
+            type="text"
+            placeholder="Name"
+            onChange={(e) =>
+              setFilters((prev) => ({ ...prev, name: e.target.value }))
+            }
+          />
+          <input
+            type="text"
+            placeholder="Price"
+            onChange={(e) =>
+              setFilters((prev) => ({ ...prev, price: e.target.value }))
+            }
+          />
+
           <div
-            className="find"
+            className="search"
             onClick={() => filter(medServices, filters, setFiltered)}
           >
             Find

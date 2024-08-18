@@ -50,16 +50,6 @@ const Client: React.FC = () => {
 
   const labelsRender = (item: IKey) => <Label {...item} setItem={setClient} />;
 
-  // useEffect(() => {
-  //   const data = [];
-  //   for (const key in client) {
-  //     const label = key.split("");
-  //     label[0] = label[0].toUpperCase();
-  //     data.push(label.join(""));
-  //   }
-  //   setKeys(data);
-  // }, []);
-
   return (
     <>
       <div className="create client">

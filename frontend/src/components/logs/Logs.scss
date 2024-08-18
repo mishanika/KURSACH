@@ -39,7 +39,9 @@
       text-overflow: clip;
     }
   }
-
+  .photo {
+    text-wrap: nowrap;
+  }
   .id {
     width: 5%;
     max-width: 5%;

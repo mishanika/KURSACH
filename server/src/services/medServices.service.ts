@@ -50,10 +50,13 @@ LEFT JOIN
     photo,
     doctor_id,
   }: MedService): Promise<ServiceResponse> => {
-    await database.query(`
+    const data = (
+      await database.query(`
       INSERT INTO MedServices (name, description, duration, price, photo, doctor_id)
-      VALUES ('${name}', '${description}',${duration}, ${price}, '${"photo"}', ${doctor_id})`);
-    return { error: "", code: 200, accessToken: "", data: {} };
+       OUTPUT INSERTED.id
+      VALUES ('${name}', '${description}',${duration}, ${price}, '${photo}', ${doctor_id})`)
+    ).recordset;
+    return { error: "", code: 200, accessToken: "", data: data[0] };
   };
 
   update = async ({
@@ -66,7 +69,7 @@ LEFT JOIN
     id,
   }: MedService & { id: string }): Promise<ServiceResponse> => {
     await database.query(`
-        UPDATE MedServices SET name = '${name}', description = '${description}', duration = '${duration}', price = '${price}', doctor_id = ${doctor_id} WHERE id = ${id}`);
+        UPDATE MedServices SET name = '${name}', description = '${description}', duration = ${duration}, price = ${price}, doctor_id = ${doctor_id} WHERE id = ${id}`);
     return { error: "", code: 200, accessToken: "", data: {} };
   };
 

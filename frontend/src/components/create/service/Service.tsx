@@ -1,6 +1,7 @@
 import { useAppDispatch } from "../../../app/hooks";
 import { setError } from "../../../features/error/errorSlice";
 import { url } from "../../../utils/utils";
+import { uploadImg } from "../../edit/helpers";
 import Label from "../../label/Label";
 import { IKey, serviceKeys } from "../keys";
 import "./Service.scss";
@@ -12,7 +13,7 @@ export type Service = {
   price: string;
   duration: string;
   category: string;
-  photo: string;
+  photo: FileList | null;
 };
 
 const Service: React.FC = () => {
@@ -24,7 +25,7 @@ const Service: React.FC = () => {
     price: "",
     duration: "",
     category: "",
-    photo: "",
+    photo: null,
   });
   const [keys, setKeys] = useState<IKey[]>(serviceKeys);
 
@@ -45,20 +46,18 @@ const Service: React.FC = () => {
     });
     const data = await response.json();
 
+    await uploadImg(
+      data,
+      service.photo,
+      "photo/change",
+      "Services",
+      "services/photo"
+    );
+
     dispatch(setError(data.error ? data.error : "Everything is ok"));
   };
 
   const labelsRender = (item: IKey) => <Label {...item} setItem={setService} />;
-
-  // useEffect(() => {
-  //   const data = [];
-  //   for (const key in service) {
-  //     const label = key.split("");
-  //     label[0] = label[0].toUpperCase();
-  //     data.push(label.join(""));
-  //   }
-  //   setKeys(data);
-  // }, []);
 
   return (
     <>

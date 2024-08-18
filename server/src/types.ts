@@ -66,6 +66,14 @@ export type Personal = {
   client_id: string;
 };
 
+export type PhotoEdit = {
+  id: string;
+  table: string;
+  folder: string;
+  photoName: string;
+  accessToken: string;
+};
+
 export type Room = {
   number: string;
   type: string;

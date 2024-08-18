@@ -1,6 +1,7 @@
 import { useAppDispatch } from "../../../app/hooks";
 import { setError } from "../../../features/error/errorSlice";
 import { url } from "../../../utils/utils";
+import { uploadImg } from "../../edit/helpers";
 import Label from "../../label/Label";
 import { IKey, medKeys } from "../keys";
 import "./Med.scss";
@@ -11,7 +12,7 @@ export type Med = {
   description: string;
   duration: string;
   price: string;
-  photo: string;
+  photo: FileList | null | string;
   doctor_id: string;
 };
 
@@ -23,7 +24,7 @@ const Med: React.FC = () => {
     description: "",
     duration: "",
     price: "",
-    photo: "",
+    photo: null,
     doctor_id: "",
   });
   const [keys, setKeys] = useState<IKey[]>(medKeys);
@@ -36,7 +37,7 @@ const Med: React.FC = () => {
       accessToken: accessToken,
     };
 
-    const response = await fetch(`${url}/user/register`, {
+    const response = await fetch(`${url}/med-services/create`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
@@ -44,6 +45,14 @@ const Med: React.FC = () => {
       body: JSON.stringify(dataToPost),
     });
     const data = await response.json();
+
+    await uploadImg(
+      data,
+      service.photo instanceof FileList ? service.photo : null,
+      "photo/change",
+      "MedServices",
+      "med/photo"
+    );
 
     dispatch(setError(data.error ? data.error : "Everything is ok"));
   };

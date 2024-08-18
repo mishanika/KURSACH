@@ -31,10 +31,13 @@ class RoomsService {
     price,
     photo,
   }: Room): Promise<ServiceResponse> => {
-    await database.query(`
+    const data = (
+      await database.query(`
       INSERT INTO Rooms (number, type, description, price, photo)
-      VALUES (${number}, '${type}', '${description}', ${price}, '${"photo"}')`);
-    return { error: "", code: 200, accessToken: "", data: {} };
+      OUTPUT INSERTED.id
+      VALUES (${number}, '${type}', '${description}', ${price}, '${photo}')`)
+    ).recordset;
+    return { error: "", code: 200, accessToken: "", data: data[0] };
   };
 
   update = async ({

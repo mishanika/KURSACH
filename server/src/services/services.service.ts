@@ -24,10 +24,13 @@ class ServicesService {
     photo,
     category,
   }: Service): Promise<ServiceResponse> => {
-    await database.query(`
+    const data = (
+      await database.query(`
       INSERT INTO Services (name, description, duration, price, photo, category)
-      VALUES ('${name}', '${description}',${duration}, ${price}, '${"photo"}',' ${category}')`);
-    return { error: "", code: 200, accessToken: "", data: {} };
+      OUTPUT INSERTED.id
+      VALUES ('${name}', '${description}',${duration}, ${price}, '${photo}',' ${category}')`)
+    ).recordset;
+    return { error: "", code: 200, accessToken: "", data: data[0] };
   };
 
   update = async ({
@@ -40,7 +43,7 @@ class ServicesService {
     id,
   }: Service & { id: string }): Promise<ServiceResponse> => {
     await database.query(`
-        UPDATE Services SET name = '${name}', description = '${description}', duration = ${duration}, price = ${price}, photo = ${photo}, category = ${category} WHERE id = '${id}'`);
+        UPDATE Services SET name = '${name}', description = '${description}', duration = ${duration}, price = ${price}, photo = '${photo}', category = '${category}' WHERE id = '${id}'`);
     return { error: "", code: 200, accessToken: "", data: {} };
   };
 

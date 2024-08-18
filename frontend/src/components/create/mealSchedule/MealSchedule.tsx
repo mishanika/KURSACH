@@ -29,7 +29,7 @@ const MealSchedule: React.FC = () => {
       accessToken: accessToken,
     };
 
-    const response = await fetch(`${url}/user/register`, {
+    const response = await fetch(`${url}/meal-schedule/create`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json;charset=utf-8",

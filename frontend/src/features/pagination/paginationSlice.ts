@@ -4,7 +4,7 @@ import { RootState } from "../../app/store";
 export type Pagination = {
   route: string;
   itemsPerPage: number;
-  data: { [key: string]: string }[];
+  data: { photo: FileList | null; [key: string]: string | FileList | null }[];
 };
 
 const initialState: Pagination = {
@@ -24,7 +24,11 @@ export const paginationSlice = createSlice({
 
     setData: (
       state,
-      { payload }: PayloadAction<{ [key: string]: string }[]>
+      {
+        payload,
+      }: PayloadAction<
+        { photo: FileList | null; [key: string]: string | FileList | null }[]
+      >
     ) => {
       state.data = payload;
     },

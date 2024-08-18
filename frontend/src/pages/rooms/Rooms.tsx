@@ -21,7 +21,7 @@ const Rooms: React.FC<Props> = ({ itemsPerPage }) => {
   const [rooms, setRooms] = useState<RoomGet[]>([]);
   const [filtered, setFiltered] = useState<RoomGet[]>([]);
   const [itemOffset, setItemOffset] = useState(0);
-  const [filters, setFilters] = useState({ name: "", email: "", number: "" });
+  const [filters, setFilters] = useState({});
 
   const endOffset = itemOffset + itemsPerPage;
 
@@ -44,9 +44,24 @@ const Rooms: React.FC<Props> = ({ itemsPerPage }) => {
     <div className="items-wrapper">
       {isSeen ? <Error /> : null}
       <div className="content">
-        <div className="filters">
+        <div className="filters on-page">
+          <input
+            type="text"
+            placeholder="Number"
+            onChange={(e) =>
+              setFilters((prev) => ({ ...prev, number: e.target.value }))
+            }
+          />
+          <input
+            type="text"
+            placeholder="Price"
+            onChange={(e) =>
+              setFilters((prev) => ({ ...prev, price: e.target.value }))
+            }
+          />
+
           <div
-            className="find"
+            className="search"
             onClick={() => filter(rooms, filters, setFiltered)}
           >
             Find

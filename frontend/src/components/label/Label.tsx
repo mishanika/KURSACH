@@ -8,7 +8,7 @@ export type Props = {
   setItem: React.Dispatch<React.SetStateAction<any>>;
   optionsData: string[];
   route?: string;
-  itemData?: { [key: string]: string };
+  itemData?: { [key: string]: string | FileList | null };
   isUpdate?: boolean;
 };
 
@@ -45,7 +45,7 @@ const Label: React.FC<Props> = ({
         <input
           type="text"
           id={`${item}`}
-          value={(itemData && itemData[item.toLowerCase()]) || ""}
+          value={(itemData && `${itemData[item.toLowerCase()]}`) || undefined}
           onChange={(e) =>
             setItem((prev: any) => ({
               ...prev,
@@ -62,7 +62,7 @@ const Label: React.FC<Props> = ({
 
         <textarea
           id={`${item}`}
-          value={(itemData && itemData[item.toLowerCase()]) || ""}
+          value={(itemData && `${itemData[item.toLowerCase()]}`) || undefined}
           onChange={(e) =>
             setItem((prev: any) => ({
               ...prev,
@@ -107,7 +107,7 @@ const Label: React.FC<Props> = ({
           onChange={(e) =>
             setItem((prev: any) => ({
               ...prev,
-              [item.toLowerCase()]: e.target.value,
+              [item.toLowerCase()]: e.target.files,
             }))
           }
         />

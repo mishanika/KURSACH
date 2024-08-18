@@ -7,7 +7,6 @@ import {
   useEffect,
   useState,
 } from "react";
-import { url } from "../../utils/utils";
 import { selectPagination } from "../../features/pagination/paginationSlice";
 import { useAppSelector } from "../../app/hooks";
 
@@ -39,19 +38,6 @@ export const PaginationWrapper: React.FC<PropsWithChildren> = ({
 
     setItemOffset(newOffset);
   };
-
-  // const renderHeader = (item: string, index: number) => (
-  //   <div className="" key={index}>
-  //     {item}
-  //   </div>
-  // );
-
-  // useEffect(() => {
-  //   console.log(`${url}/${route}`);
-  //   fetch(`${url}/${route}`)
-  //     .then((data) => data.json())
-  //     .then(({ data }) => setData(data));
-  // }, [route]);
 
   useEffect(() => {
     const tempData: string[] = [];

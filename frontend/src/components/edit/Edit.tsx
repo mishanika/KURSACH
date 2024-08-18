@@ -4,6 +4,7 @@ import { url } from "../../utils/utils";
 import { ref, uploadBytes } from "firebase/storage";
 import { bucket } from "../../firebase/firebase";
 import { ProfileInfo } from "../../types";
+import { uploadImg } from "./helpers";
 
 type Props = {
   photo: string;
@@ -56,36 +57,17 @@ const Edit: React.FC<Props> = ({
     const resData = await response.json();
 
     if (photoRef.current && photoRef.current.files?.length) {
-      const name = `${resData.data.id}.${
-        photoRef.current.files[0].type.split("/")[1]
-      }`;
-      const firebaseRef = ref(bucket, `userPhoto/${name}`);
-      const metadata = {
-        contentType: photoRef.current.files[0].type,
-      };
-
-      await uploadBytes(firebaseRef, photoRef.current.files[0], metadata);
-
-      const data = {
-        photoName: name,
-        accessToken: localStorage.getItem("accessToken"),
-      };
-
-      fetch(`${url}/user/edit/photo`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json;charset=utf-8",
-        },
-        body: JSON.stringify(data),
-      })
-        .then((data) => data.json())
-        .then((data) => {
-          setProfileInfo(data.data);
-        });
-      console.log(name);
+      setProfileInfo(
+        await uploadImg(
+          resData,
+          photoRef.current.files,
+          "user/edit/photo",
+          "Clients",
+          "userPhoto"
+        )
+      );
       return;
     }
-
     // delete resData.id;
     // delete resData.type;
     setProfileInfo(resData.data);

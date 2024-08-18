@@ -31,7 +31,7 @@ class ServicesController {
       const backup = await this.servicesService.create(req.body);
 
       if (backup.code === 200) {
-        res.status(backup.code).json();
+        res.status(backup.code).json(backup.data);
       } else {
         res.status(backup.code).json({ error: backup.error });
       }
@@ -47,7 +47,7 @@ class ServicesController {
       const backup = await this.servicesService.update(req.body);
 
       if (backup.code === 200) {
-        res.status(backup.code).json();
+        res.status(backup.code).json(backup.data);
       } else {
         res.status(backup.code).json({ error: backup.error });
       }

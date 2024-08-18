@@ -1,6 +1,7 @@
 import { useAppDispatch } from "../../../app/hooks";
 import { setError } from "../../../features/error/errorSlice";
 import { url } from "../../../utils/utils";
+import { uploadImg } from "../../edit/helpers";
 import Label from "../../label/Label";
 import { IKey, roomsKeys } from "../keys";
 import "./Room.scss";
@@ -10,7 +11,7 @@ export type Room = {
   number: string;
   type: string;
   price: string;
-  photo: string;
+  photo: FileList | null;
   description: string;
 };
 
@@ -21,7 +22,7 @@ const Room: React.FC = () => {
     number: "",
     type: "",
     price: "",
-    photo: "",
+    photo: null,
     description: "",
   });
   const [keys, setKeys] = useState<IKey[]>(roomsKeys);
@@ -34,7 +35,7 @@ const Room: React.FC = () => {
       accessToken: accessToken,
     };
 
-    const response = await fetch(`${url}/user/register`, {
+    const response = await fetch(`${url}/room/create`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
@@ -43,6 +44,13 @@ const Room: React.FC = () => {
     });
     const data = await response.json();
 
+    await uploadImg(
+      data,
+      service.photo,
+      "photo/change",
+      "Rooms",
+      "rooms/photo"
+    );
     dispatch(setError(data.error ? data.error : "Everything is ok"));
   };
 

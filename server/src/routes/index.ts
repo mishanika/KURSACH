@@ -7,6 +7,7 @@ import { servicesModule } from "../modules/services.module";
 import { medServicesModule } from "../modules/medServices.module";
 import { mealScheduleModule } from "../modules/mealSchedule.module";
 import { medScheduleModule } from "../modules/medSchedule.module";
+import { photoModule } from "../modules/photo.module";
 
 const router = express.Router();
 
@@ -18,5 +19,6 @@ router.use("/services", servicesModule.router);
 router.use("/med-services", medServicesModule.router);
 router.use("/meal-schedule", mealScheduleModule.router);
 router.use("/med-schedule", medScheduleModule.router);
+router.use("/photo", photoModule.router);
 
 export default router;

@@ -38,7 +38,7 @@ const Room: React.FC<RoomGet> = ({
   return (
     <div className="item room">
       <div className="photo">
-        <img src={photo} alt="" />
+        <img src={`${photo}`} alt="" />
       </div>
       <div className="info">
         <div className="number">Room number: {number}</div>

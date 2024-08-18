@@ -62,7 +62,7 @@ LEFT JOIN
     id,
   }: Personal & { id: string }): Promise<ServiceResponse> => {
     await database.query(`
-        UPDATE Personnel SET name = '${name}', surname = '${surname}', salary = ${salary}, client_id = '${client_id}' WHERE id = ${id}`);
+        UPDATE Personnel SET name = '${name}', surname = '${surname}', salary = ${salary}, client_id = ${client_id} WHERE id = ${id}`);
     return { error: "", code: 200, accessToken: "", data: {} };
   };
 

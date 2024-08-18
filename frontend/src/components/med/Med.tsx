@@ -37,7 +37,7 @@ const Med: React.FC<MedGet> = ({
   return (
     <div className="item med">
       <div className="photo">
-        <img src={photo} alt="" />
+        <img src={`${photo}`} alt="" />
       </div>
       <div className="info">
         <div className="number">Service name: {name}</div>
@@ -46,7 +46,7 @@ const Med: React.FC<MedGet> = ({
         <div className="description">Description: {description}</div>
       </div>
       <div className="price">
-        <span>{price}uah/per night</span>
+        <span>{price}uah</span>
         <div className="rent" onClick={() => order()}>
           Order
         </div>

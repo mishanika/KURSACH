@@ -4,10 +4,14 @@ import { url } from "../../utils/utils";
 import { ref, uploadBytes } from "firebase/storage";
 import { bucket } from "../../firebase/firebase";
 import { ProfileInfo } from "../../types";
-import { useAppSelector } from "../../app/hooks";
-import { selectPagination } from "../../features/pagination/paginationSlice";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import {
+  selectPagination,
+  setData,
+} from "../../features/pagination/paginationSlice";
 import { clientKeys, IKey } from "../create/keys";
 import Label from "../label/Label";
+import { uploadImg } from "../edit/helpers";
 
 type Props = {
   keys: IKey[];
@@ -21,6 +25,7 @@ type Props = {
 };
 
 export const UpdatePopup: React.FC<Props> = ({ keys, index, setPopup }) => {
+  const dispatch = useAppDispatch();
   const { route, data } = useAppSelector(selectPagination);
   const [item, setItem] = useState(data[index]);
   const popupRef = useRef<HTMLDivElement>(null);
@@ -33,19 +38,33 @@ export const UpdatePopup: React.FC<Props> = ({ keys, index, setPopup }) => {
   };
 
   const edit = async () => {
-    const data = {
+    const dataToPost = {
+      ...item,
       accessToken: localStorage.getItem("accessToken"),
     };
 
-    const response = await fetch(`${url}/user/edit`, {
+    const response = await fetch(`${url}/${route}/update`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(dataToPost),
     });
 
     const resData = await response.json();
+    const uploaded = await uploadImg(
+      dataToPost,
+      item.photo,
+      "photo/change",
+      "Services",
+      "services/photo"
+    );
+
+    const temData = [...data];
+    temData[index] = { ...item };
+    temData[index].photo = uploaded.photo;
+
+    dispatch(setData(temData));
   };
 
   const labelsRender = (key: IKey) => (

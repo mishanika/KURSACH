@@ -31,7 +31,7 @@ class RoomController {
       const backup = await this.roomService.create(req.body);
 
       if (backup.code === 200) {
-        res.status(backup.code).json();
+        res.status(backup.code).json(backup.data);
       } else {
         res.status(backup.code).json({ error: backup.error });
       }
@@ -47,7 +47,7 @@ class RoomController {
       const backup = await this.roomService.update(req.body);
 
       if (backup.code === 200) {
-        res.status(backup.code).json();
+        res.status(backup.code).json(backup.data);
       } else {
         res.status(backup.code).json({ error: backup.error });
       }
