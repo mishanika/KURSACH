@@ -15,6 +15,8 @@ class RoomRouter {
     router.route("/update").post(this.roomController.update);
     router.route("/delete").post(this.roomController.delete);
     router.route("/rent").post(this.roomController.rent);
+    router.route("/rents").get(this.roomController.getRents);
+    router.route("/delete-rent").post(this.roomController.deleteRent);
 
     return router;
   }

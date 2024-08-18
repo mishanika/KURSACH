@@ -59,10 +59,18 @@ class UserService {
       return { error: "Password doesn't match", code: 400, accessToken: "" };
     }
     if (registredUser && registredUser.number + "" === number) {
-      return { error: "There is a user with such a number", code: 400, accessToken: "" };
+      return {
+        error: "There is a user with such a number",
+        code: 400,
+        accessToken: "",
+      };
     }
     if (registredUser && registredUser.email === email) {
-      return { error: "There is a user with such an email", code: 400, accessToken: "" };
+      return {
+        error: "There is a user with such an email",
+        code: 400,
+        accessToken: "",
+      };
     }
 
     await database.query(`
@@ -74,7 +82,10 @@ class UserService {
     return { error: "", code: 200, accessToken: "" };
   };
 
-  loginUser = async ({ login, password }: LoginBody): Promise<ServiceResponse> => {
+  loginUser = async ({
+    login,
+    password,
+  }: LoginBody): Promise<ServiceResponse> => {
     const users = (
       await database.query(`
       SELECT * FROM Clients WHERE email = '${login}' AND password = '${password}'`)
@@ -83,12 +94,20 @@ class UserService {
     const user = users.length ? users[0] : false;
 
     if (user && user.email) {
-      const { accessToken, refreshToken } = makeTokens(user.email, user.id + "");
+      const { accessToken, refreshToken } = makeTokens(
+        user.email,
+        user.id + ""
+      );
 
       await database.query(`
         UPDATE Clients SET accessToken = '${accessToken}', refreshToken = '${refreshToken}' WHERE id = '${user.id}'`);
 
-      return { error: "", code: 200, accessToken: accessToken, data: { id: user.id } };
+      return {
+        error: "",
+        code: 200,
+        accessToken: accessToken,
+        data: { id: user.id },
+      };
     }
 
     return { error: "Invalid login or password", code: 400, accessToken: "" };
@@ -105,8 +124,17 @@ class UserService {
 
     const user = users.length ? users[0] : false;
 
-    if (isAccessVerified && isAccessVerified.isAuth && user && user.type === "admin") {
-      return { error: "", code: 200, accessToken: isAccessVerified.token ? isAccessVerified.token : "" };
+    if (
+      isAccessVerified &&
+      isAccessVerified.isAuth &&
+      user &&
+      user.type === "admin"
+    ) {
+      return {
+        error: "",
+        code: 200,
+        accessToken: isAccessVerified.token ? isAccessVerified.token : "",
+      };
     }
 
     return { error: "Permission denied", code: 400, accessToken: "" };
@@ -116,7 +144,11 @@ class UserService {
     const isAccessVerified = await verify(accessToken);
 
     if (isAccessVerified && isAccessVerified.isAuth) {
-      return { error: "", code: 200, accessToken: isAccessVerified.token ? isAccessVerified.token : "" };
+      return {
+        error: "",
+        code: 200,
+        accessToken: isAccessVerified.token ? isAccessVerified.token : "",
+      };
     }
 
     return { error: "Permission denied", code: 400, accessToken: "" };
@@ -135,7 +167,10 @@ class UserService {
     return { error: "Internal error while logout", code: 500, accessToken: "" };
   };
 
-  getProfile = async ({ id, accessToken }: ProfileBody): Promise<ServiceResponse> => {
+  getProfile = async ({
+    id,
+    accessToken,
+  }: ProfileBody): Promise<ServiceResponse> => {
     const isAccessVerified = await verify(accessToken);
     if (isAccessVerified && isAccessVerified.isAuth) {
       const decodedToken = decode(accessToken);
@@ -173,10 +208,19 @@ class UserService {
         };
       }
     }
-    return { error: "Internal error while getting profile", code: 500, accessToken: "" };
+    return {
+      error: "Internal error while getting profile",
+      code: 500,
+      accessToken: "",
+    };
   };
 
-  editProfile = async ({ type, name, surname, accessToken }: EditBody): Promise<ServiceResponse> => {
+  editProfile = async ({
+    type,
+    name,
+    surname,
+    accessToken,
+  }: EditBody): Promise<ServiceResponse> => {
     const isAccessVerified = await verify(accessToken);
     if (isAccessVerified && isAccessVerified.isAuth) {
       const decodedToken = decode(accessToken);
@@ -211,7 +255,10 @@ class UserService {
     return { error: "Internal error while edit", code: 500, accessToken: "" };
   };
 
-  changePhoto = async ({ photoName, accessToken }: EditPhotoBody): Promise<ServiceResponse> => {
+  changePhoto = async ({
+    photoName,
+    accessToken,
+  }: EditPhotoBody): Promise<ServiceResponse> => {
     const isAccessVerified = await verify(accessToken);
     if (isAccessVerified && isAccessVerified.isAuth) {
       const decodedToken = decode(accessToken);
@@ -230,7 +277,9 @@ class UserService {
         });
       }
 
-      const photoFile = await bucket.getFiles({ prefix: `userPhoto/${photoName}` });
+      const photoFile = await bucket.getFiles({
+        prefix: `userPhoto/${photoName}`,
+      });
       const photoURL = await photoFile[0][0]
         .getSignedUrl({
           action: "read",
@@ -266,11 +315,23 @@ class UserService {
     return { error: "", code: 200, accessToken: "", data: { users: users } };
   };
 
-  update = async (): Promise<ServiceResponse> => {
+  update = async ({
+    name,
+    surname,
+    number,
+    email,
+    password,
+    type,
+    id,
+  }: RegisterBody & { id: string }): Promise<ServiceResponse> => {
+    await database.query(`
+        UPDATE Clients SET name = '${name}', surname = '${surname}', number = ${number}, email = ${email}, password = ${password}, type = ${type} WHERE id = '${id}'`);
     return { error: "", code: 200, accessToken: "", data: {} };
   };
 
-  delete = async (): Promise<ServiceResponse> => {
+  delete = async ({ id }: { id: string }): Promise<ServiceResponse> => {
+    await database.query(`
+      DELETE FROM Clients WHERE id = ${id}`);
     return { error: "", code: 200, accessToken: "", data: {} };
   };
 }

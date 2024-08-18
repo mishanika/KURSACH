@@ -13,7 +13,9 @@ class RoomController {
       const rooms = await this.roomService.getRooms();
 
       if (rooms.code === 200) {
-        res.status(rooms.code).json({ error: "", accessToken: "", data: rooms.data.rooms });
+        res
+          .status(rooms.code)
+          .json({ error: "", accessToken: "", data: rooms.data.rooms });
       } else {
         res.status(rooms.code).json({ error: rooms.error });
       }
@@ -26,7 +28,7 @@ class RoomController {
 
   create = async (req: Request, res: Response) => {
     try {
-      const backup = await this.roomService.create();
+      const backup = await this.roomService.create(req.body);
 
       if (backup.code === 200) {
         res.status(backup.code).json();
@@ -42,7 +44,7 @@ class RoomController {
 
   update = async (req: Request, res: Response) => {
     try {
-      const backup = await this.roomService.update();
+      const backup = await this.roomService.update(req.body);
 
       if (backup.code === 200) {
         res.status(backup.code).json();
@@ -58,7 +60,7 @@ class RoomController {
 
   delete = async (req: Request, res: Response) => {
     try {
-      const backup = await this.roomService.delete();
+      const backup = await this.roomService.delete(req.body);
 
       if (backup.code === 200) {
         res.status(backup.code).json();
@@ -81,6 +83,38 @@ class RoomController {
 
       if (backup.code === 200) {
         res.status(backup.code).json("");
+      } else {
+        res.status(backup.code).json({ error: backup.error });
+      }
+    } catch (err) {
+      console.log(err);
+
+      res.status(500).send("Internal server error");
+    }
+  };
+
+  getRents = async (req: Request, res: Response) => {
+    try {
+      const backup = await this.roomService.getRents();
+
+      if (backup.code === 200) {
+        res.status(backup.code).json(backup.data);
+      } else {
+        res.status(backup.code).json({ error: backup.error });
+      }
+    } catch (err) {
+      console.log(err);
+
+      res.status(500).send("Internal server error");
+    }
+  };
+
+  deleteRent = async (req: Request, res: Response) => {
+    try {
+      const backup = await this.roomService.deleteRent(req.body);
+
+      if (backup.code === 200) {
+        res.status(backup.code).json();
       } else {
         res.status(backup.code).json({ error: backup.error });
       }

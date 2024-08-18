@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { url } from "../../utils/utils";
 import { ProfileInfo } from "../../types";
 import Edit from "../../components/edit/Edit";
+import Basket from "../../components/basket/Basket";
 
 type Response = {
   accessToken: string;
@@ -24,7 +25,7 @@ const Profile: React.FC = () => {
     photo: "",
     isEditable: false,
   });
-  const [popIsOpen, setPopupIsOpen] = useState({ friends: false, edit: false });
+  const [popIsOpen, setPopupIsOpen] = useState({ edit: false, basket: false });
 
   const accessToken = localStorage.getItem("accessToken");
 
@@ -44,7 +45,7 @@ const Profile: React.FC = () => {
       .then((data: Response) => {
         localStorage.setItem("accessToken", data.accessToken);
         setProfileInfo(data.data);
-        setPopupIsOpen({ friends: false, edit: false });
+        setPopupIsOpen({ basket: false, edit: false });
       });
   }, [id]);
 
@@ -59,21 +60,37 @@ const Profile: React.FC = () => {
           setPopupIsOpen={setPopupIsOpen}
         />
       ) : null}
+      {popIsOpen.basket ? <Basket setPopupIsOpen={setPopupIsOpen} /> : null}
       <div className="profile-wrapper">
         <div className="profile">
           <div className="info">
             {" "}
             <div className="profile-photo">
-              {profileInfo.photo.length ? <img src={profileInfo.photo} alt="" /> : null}
+              {profileInfo.photo.length ? (
+                <img src={profileInfo.photo} alt="" />
+              ) : null}
             </div>
             <div className="username">
               {profileInfo.name} {profileInfo.surname}
             </div>
             {profileInfo.isEditable ? (
-              <div className="edit" onClick={() => setPopupIsOpen((prev) => ({ ...prev, edit: true }))}>
+              <div
+                className="edit"
+                onClick={() =>
+                  setPopupIsOpen((prev) => ({ ...prev, edit: true }))
+                }
+              >
                 Edit
               </div>
             ) : null}
+          </div>
+          <div
+            className="basket"
+            onClick={() =>
+              setPopupIsOpen((prev) => ({ ...prev, basket: true }))
+            }
+          >
+            Basket
           </div>
 
           <div className="logout" onClick={() => logoutHandler()}>

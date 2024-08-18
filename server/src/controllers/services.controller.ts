@@ -15,7 +15,7 @@ class ServicesController {
       if (services.code === 200) {
         res
           .status(services.code)
-          .json({ error: "", accessToken: "", data: services.data.servicess });
+          .json({ error: "", accessToken: "", data: services.data.services });
       } else {
         res.status(services.code).json({ error: services.error });
       }
@@ -28,7 +28,7 @@ class ServicesController {
 
   create = async (req: Request, res: Response) => {
     try {
-      const backup = await this.servicesService.create();
+      const backup = await this.servicesService.create(req.body);
 
       if (backup.code === 200) {
         res.status(backup.code).json();
@@ -44,7 +44,7 @@ class ServicesController {
 
   update = async (req: Request, res: Response) => {
     try {
-      const backup = await this.servicesService.update();
+      const backup = await this.servicesService.update(req.body);
 
       if (backup.code === 200) {
         res.status(backup.code).json();
@@ -60,7 +60,7 @@ class ServicesController {
 
   delete = async (req: Request, res: Response) => {
     try {
-      const backup = await this.servicesService.delete();
+      const backup = await this.servicesService.delete(req.body);
 
       if (backup.code === 200) {
         res.status(backup.code).json();
@@ -74,15 +74,47 @@ class ServicesController {
     }
   };
 
-  rent = async (req: Request, res: Response) => {
+  order = async (req: Request, res: Response) => {
     try {
-      const { servicesId, accessToken } = req.body;
+      const { serviceId, accessToken } = req.body;
       const { id } = decode(accessToken);
 
-      const backup = await this.servicesService.rent(servicesId, id);
+      const backup = await this.servicesService.order(serviceId, id);
 
       if (backup.code === 200) {
         res.status(backup.code).json("");
+      } else {
+        res.status(backup.code).json({ error: backup.error });
+      }
+    } catch (err) {
+      console.log(err);
+
+      res.status(500).send("Internal server error");
+    }
+  };
+
+  getOrders = async (req: Request, res: Response) => {
+    try {
+      const backup = await this.servicesService.getOrders();
+
+      if (backup.code === 200) {
+        res.status(backup.code).json(backup.data);
+      } else {
+        res.status(backup.code).json({ error: backup.error });
+      }
+    } catch (err) {
+      console.log(err);
+
+      res.status(500).send("Internal server error");
+    }
+  };
+
+  deleteOrder = async (req: Request, res: Response) => {
+    try {
+      const backup = await this.servicesService.deleteOrder(req.body);
+
+      if (backup.code === 200) {
+        res.status(backup.code).json();
       } else {
         res.status(backup.code).json({ error: backup.error });
       }

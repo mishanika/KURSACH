@@ -13,13 +13,11 @@ class MealScheduleController {
       const mealSchedule = await this.mealScheduleService.get();
 
       if (mealSchedule.code === 200) {
-        res
-          .status(mealSchedule.code)
-          .json({
-            error: "",
-            accessToken: "",
-            data: mealSchedule.data.mealSchedule,
-          });
+        res.status(mealSchedule.code).json({
+          error: "",
+          accessToken: "",
+          data: mealSchedule.data.mealSchedule,
+        });
       } else {
         res.status(mealSchedule.code).json({ error: mealSchedule.error });
       }
@@ -32,7 +30,7 @@ class MealScheduleController {
 
   create = async (req: Request, res: Response) => {
     try {
-      const backup = await this.mealScheduleService.create();
+      const backup = await this.mealScheduleService.create(req.body);
 
       if (backup.code === 200) {
         res.status(backup.code).json();
@@ -48,7 +46,7 @@ class MealScheduleController {
 
   update = async (req: Request, res: Response) => {
     try {
-      const backup = await this.mealScheduleService.update();
+      const backup = await this.mealScheduleService.update(req.body);
 
       if (backup.code === 200) {
         res.status(backup.code).json();
@@ -64,29 +62,10 @@ class MealScheduleController {
 
   delete = async (req: Request, res: Response) => {
     try {
-      const backup = await this.mealScheduleService.delete();
+      const backup = await this.mealScheduleService.delete(req.body);
 
       if (backup.code === 200) {
         res.status(backup.code).json();
-      } else {
-        res.status(backup.code).json({ error: backup.error });
-      }
-    } catch (err) {
-      console.log(err);
-
-      res.status(500).send("Internal server error");
-    }
-  };
-
-  rent = async (req: Request, res: Response) => {
-    try {
-      const { mealScheduleId, accessToken } = req.body;
-      const { id } = decode(accessToken);
-
-      const backup = await this.mealScheduleService.rent(mealScheduleId, id);
-
-      if (backup.code === 200) {
-        res.status(backup.code).json("");
       } else {
         res.status(backup.code).json({ error: backup.error });
       }

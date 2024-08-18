@@ -1,26 +1,42 @@
-.create {
-  width: 100%;
+.update {
+  width: calc(100% - 25px);
 
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
+  div {
+    cursor: pointer;
+  }
 
-  .submit {
-    background: #8cc152;
-    font-size: 1.5rem;
-    color: #fff;
-    padding: 5px 0;
+  .delete {
+    padding: 5px 10px;
+    color: rgb(244, 21, 58);
+    background: white;
+
+    border: 1px solid rgb(244, 21, 58);
+    border-radius: 0.5rem;
     transition: 0.3s all ease;
-    border-radius: 0.25rem;
     cursor: pointer;
 
-    display: flex;
-    justify-content: center;
-
     &:hover {
-      -webkit-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
-      -moz-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
-      box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+      color: white;
+      background: rgb(244, 21, 58);
     }
+  }
+}
+
+.clients-update {
+  .name {
+    width: 15%;
+    max-width: 15%;
+  }
+  .surname {
+    width: 15%;
+    max-width: 15%;
+  }
+  .email {
+    width: 20%;
+    max-width: 20%;
+  }
+  .number {
+    width: 20%;
+    max-width: 20%;
   }
 }

@@ -3,6 +3,8 @@ import Registration from "../../pages/registration/Registration";
 import Profile from "../../pages/profile/Profile";
 import Admin from "../../pages/admin/Admin";
 import Rooms from "../../pages/rooms/Rooms";
+import MedServices from "../../pages/medServices/MedServices";
+import Services from "../../pages/services/Services";
 
 export type IRoute = {
   path: string;
@@ -42,10 +44,10 @@ export const privateRoutes: IRoute[] = [
   },
   {
     path: "/med",
-    element: <Rooms itemsPerPage={10} />,
+    element: <MedServices itemsPerPage={10} />,
   },
   {
     path: "/services",
-    element: <Rooms itemsPerPage={10} />,
+    element: <Services itemsPerPage={10} />,
   },
 ];

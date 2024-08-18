@@ -6,6 +6,7 @@ import {
   EditBody,
   EditPhotoBody,
   LoginBody,
+  Personal,
   ProfileBody,
   RegisterBody,
   ServiceResponse,
@@ -18,7 +19,20 @@ class PersonnelService {
   get = async (): Promise<ServiceResponse> => {
     const personnel = (
       await database.query(`
-      SELECT * FROM Personnel`)
+      SELECT 
+    p.id,
+    p.name,
+    p.surname,
+    p.salary,
+    p.client_id,
+    c.name AS c_name,
+    c.surname AS c_surname,
+    c.number AS c_number,
+    c.email AS c_email
+FROM 
+    Personnel p
+LEFT JOIN 
+    Clients c ON p.client_id = c.id;`)
     ).recordset;
     return {
       error: "",
@@ -28,38 +42,33 @@ class PersonnelService {
     };
   };
 
-  create = async (): Promise<ServiceResponse> => {
+  create = async ({
+    name,
+    surname,
+    salary,
+    client_id,
+  }: Personal): Promise<ServiceResponse> => {
+    await database.query(`
+      INSERT INTO Personnel (name, surname, salary, client_id)
+      VALUES ('${name}', '${surname}',${salary}, ${client_id})`);
     return { error: "", code: 200, accessToken: "", data: {} };
   };
 
-  update = async (): Promise<ServiceResponse> => {
+  update = async ({
+    name,
+    surname,
+    salary,
+    client_id,
+    id,
+  }: Personal & { id: string }): Promise<ServiceResponse> => {
+    await database.query(`
+        UPDATE Personnel SET name = '${name}', surname = '${surname}', salary = ${salary}, client_id = '${client_id}' WHERE id = ${id}`);
     return { error: "", code: 200, accessToken: "", data: {} };
   };
 
-  delete = async (): Promise<ServiceResponse> => {
-    return { error: "", code: 200, accessToken: "", data: {} };
-  };
-
-  rent = async (roomId: string, clientId: string): Promise<ServiceResponse> => {
-    const relations = (
-      await database.query(`
-      SELECT * FROM ClientRoom WHERE room_id = ${roomId}`)
-    ).recordset;
-
-    if (relations.length) {
-      return {
-        error: "Room is already rented",
-        code: 400,
-        accessToken: "",
-        data: {},
-      };
-    }
-
-    const personnel = (
-      await database.query(`
-      INSERT INTO ClientRoom VALUES (${clientId}, ${roomId})`)
-    ).recordset;
-
+  delete = async ({ id }: { id: string }): Promise<ServiceResponse> => {
+    await database.query(`
+      DELETE FROM Personnel WHERE id = ${id}`);
     return { error: "", code: 200, accessToken: "", data: {} };
   };
 }

@@ -6,12 +6,24 @@ export type Props = {
   item: string;
   type: string;
   setItem: React.Dispatch<React.SetStateAction<any>>;
-  data: string[];
+  optionsData: string[];
   route?: string;
+  itemData?: { [key: string]: string };
+  isUpdate?: boolean;
 };
 
-const Label: React.FC<Props> = ({ item, type, setItem, data, route }) => {
-  const [options, setOptions] = useState<{ id: number; name: string }[]>([]);
+const Label: React.FC<Props> = ({
+  item,
+  type,
+  setItem,
+  optionsData,
+  route,
+  itemData,
+  isUpdate,
+}) => {
+  const [options, setOptions] = useState<
+    { id: number; name: string; surname?: string }[]
+  >([]);
 
   const getOptions = async () => {
     const response = await fetch(`${url}/${route}`);
@@ -20,58 +32,84 @@ const Label: React.FC<Props> = ({ item, type, setItem, data, route }) => {
   };
 
   useEffect(() => {
-    if (type === "select" && !data.length) {
+    if (type === "select" && !optionsData.length) {
       getOptions();
     }
   }, []);
 
   if (type === "input") {
     return (
-      <div className="input-wrapper">
+      <div className={"input-wrapper" + (isUpdate ? " isUpdate" : "")}>
         <label htmlFor={`${item}`}>{item}</label>
 
         <input
           type="text"
           id={`${item}`}
-          onChange={(e) => setItem((prev: any) => ({ ...prev, [item.toLowerCase()]: e.target.value }))}
+          value={(itemData && itemData[item.toLowerCase()]) || ""}
+          onChange={(e) =>
+            setItem((prev: any) => ({
+              ...prev,
+              [item.toLowerCase()]: e.target.value,
+            }))
+          }
         />
       </div>
     );
   } else if (type === "textarea") {
     return (
-      <div className="input-wrapper">
+      <div className={"input-wrapper" + (isUpdate ? " isUpdate" : "")}>
         <label htmlFor={`${item}`}>{item}</label>
 
         <textarea
           id={`${item}`}
-          onChange={(e) => setItem((prev: any) => ({ ...prev, [item.toLowerCase()]: e.target.value }))}
+          value={(itemData && itemData[item.toLowerCase()]) || ""}
+          onChange={(e) =>
+            setItem((prev: any) => ({
+              ...prev,
+              [item.toLowerCase()]: e.target.value,
+            }))
+          }
         />
       </div>
     );
   } else if (type === "select") {
     return (
-      <div className="input-wrapper">
+      <div className={"input-wrapper" + (isUpdate ? " isUpdate" : "")}>
         <label htmlFor={`${item}`}>{item}</label>
 
         <select
           id={`${item}`}
-          onChange={(e) => setItem((prev: any) => ({ ...prev, [item.toLowerCase()]: e.target.value }))}
+          onChange={(e) =>
+            setItem((prev: any) => ({
+              ...prev,
+              [item.toLowerCase()]: e.target.value,
+            }))
+          }
         >
           {options.length
-            ? options.map(({ id, name }) => <option value={id}>{name}</option>)
-            : data.map((item) => <option>{item}</option>)}
+            ? options.map(({ id, name, surname }) => (
+                <option value={id}>
+                  {name} {surname || ""}
+                </option>
+              ))
+            : optionsData.map((item) => <option>{item}</option>)}
         </select>
       </div>
     );
   } else {
     return (
-      <div className="input-wrapper">
+      <div className={"input-wrapper" + (isUpdate ? " isUpdate" : "")}>
         <label htmlFor={`${item}`}>{item}</label>
 
         <input
           type="file"
           id={`${item}`}
-          onChange={(e) => setItem((prev: any) => ({ ...prev, [item.toLowerCase()]: e.target.value }))}
+          onChange={(e) =>
+            setItem((prev: any) => ({
+              ...prev,
+              [item.toLowerCase()]: e.target.value,
+            }))
+          }
         />
       </div>
     );

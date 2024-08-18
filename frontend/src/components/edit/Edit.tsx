@@ -11,14 +11,20 @@ type Props = {
   surname: string;
   setPopupIsOpen: React.Dispatch<
     React.SetStateAction<{
-      friends: boolean;
+      basket: boolean;
       edit: boolean;
     }>
   >;
   setProfileInfo: React.Dispatch<React.SetStateAction<ProfileInfo>>;
 };
 
-const Edit: React.FC<Props> = ({ name, surname, photo, setPopupIsOpen, setProfileInfo }) => {
+const Edit: React.FC<Props> = ({
+  name,
+  surname,
+  photo,
+  setPopupIsOpen,
+  setProfileInfo,
+}) => {
   const popupRef = useRef<HTMLDivElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
   const photoRef = useRef<HTMLInputElement>(null);
@@ -50,7 +56,9 @@ const Edit: React.FC<Props> = ({ name, surname, photo, setPopupIsOpen, setProfil
     const resData = await response.json();
 
     if (photoRef.current && photoRef.current.files?.length) {
-      const name = `${resData.data.id}.${photoRef.current.files[0].type.split("/")[1]}`;
+      const name = `${resData.data.id}.${
+        photoRef.current.files[0].type.split("/")[1]
+      }`;
       const firebaseRef = ref(bucket, `userPhoto/${name}`);
       const metadata = {
         contentType: photoRef.current.files[0].type,

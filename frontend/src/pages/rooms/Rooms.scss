@@ -1,4 +1,4 @@
-.rooms-wrapper {
+.items-wrapper {
   width: 100%;
   height: calc(100% - 78px);
   box-sizing: border-box;
@@ -31,7 +31,7 @@
       scale: 1.1;
     }
   }
-  .rooms {
+  .items {
     display: flex;
     flex-direction: column;
     gap: 50px;

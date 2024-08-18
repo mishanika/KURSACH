@@ -6,6 +6,7 @@ import {
   EditBody,
   EditPhotoBody,
   LoginBody,
+  MealSchedule,
   ProfileBody,
   RegisterBody,
   ServiceResponse,
@@ -16,45 +17,46 @@ import database from "../database/database";
 
 class MealScheduleService {
   get = async (): Promise<ServiceResponse> => {
-    const rooms = (
+    const mealSchedule = (
       await database.query(`
       SELECT * FROM MealSchedule`)
     ).recordset;
-    return { error: "", code: 200, accessToken: "", data: { rooms: rooms } };
+
+    return {
+      error: "",
+      code: 200,
+      accessToken: "",
+      data: { mealSchedule: mealSchedule },
+    };
   };
 
-  create = async (): Promise<ServiceResponse> => {
+  create = async ({
+    day,
+    breakfast,
+    dinner,
+    supper,
+  }: MealSchedule): Promise<ServiceResponse> => {
+    await database.query(`
+      INSERT INTO MealSchedule (breakfast, dinner, supper, day)
+      VALUES ('${breakfast}',${dinner}, ${supper}, ${day})`);
     return { error: "", code: 200, accessToken: "", data: {} };
   };
 
-  update = async (): Promise<ServiceResponse> => {
+  update = async ({
+    day,
+    breakfast,
+    dinner,
+    supper,
+    id,
+  }: MealSchedule & { id: string }): Promise<ServiceResponse> => {
+    await database.query(`
+        UPDATE MealSchedule SET breakfast = '${breakfast}', dinner = '${dinner}', supper = '${supper}', day = '${day}' WHERE id = ${id}`);
     return { error: "", code: 200, accessToken: "", data: {} };
   };
 
-  delete = async (): Promise<ServiceResponse> => {
-    return { error: "", code: 200, accessToken: "", data: {} };
-  };
-
-  rent = async (roomId: string, clientId: string): Promise<ServiceResponse> => {
-    const relations = (
-      await database.query(`
-      SELECT * FROM ClientRoom WHERE room_id = ${roomId}`)
-    ).recordset;
-
-    if (relations.length) {
-      return {
-        error: "Room is already rented",
-        code: 400,
-        accessToken: "",
-        data: {},
-      };
-    }
-
-    const rooms = (
-      await database.query(`
-      INSERT INTO ClientRoom VALUES (${clientId}, ${roomId})`)
-    ).recordset;
-
+  delete = async ({ id }: { id: string }): Promise<ServiceResponse> => {
+    await database.query(`
+      DELETE FROM MealSchedule WHERE id = ${id}`);
     return { error: "", code: 200, accessToken: "", data: {} };
   };
 }

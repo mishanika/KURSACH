@@ -30,7 +30,7 @@ class MedServicesController {
 
   create = async (req: Request, res: Response) => {
     try {
-      const backup = await this.medServicesService.create();
+      const backup = await this.medServicesService.create(req.body);
 
       if (backup.code === 200) {
         res.status(backup.code).json();
@@ -46,7 +46,7 @@ class MedServicesController {
 
   update = async (req: Request, res: Response) => {
     try {
-      const backup = await this.medServicesService.update();
+      const backup = await this.medServicesService.update(req.body);
 
       if (backup.code === 200) {
         res.status(backup.code).json();
@@ -62,7 +62,7 @@ class MedServicesController {
 
   delete = async (req: Request, res: Response) => {
     try {
-      const backup = await this.medServicesService.delete();
+      const backup = await this.medServicesService.delete(req.body);
 
       if (backup.code === 200) {
         res.status(backup.code).json();
@@ -76,15 +76,47 @@ class MedServicesController {
     }
   };
 
-  rent = async (req: Request, res: Response) => {
+  order = async (req: Request, res: Response) => {
     try {
-      const { medServicesId, accessToken } = req.body;
+      const { medId, accessToken } = req.body;
       const { id } = decode(accessToken);
 
-      const backup = await this.medServicesService.rent(medServicesId, id);
+      const backup = await this.medServicesService.order(medId, id);
 
       if (backup.code === 200) {
         res.status(backup.code).json("");
+      } else {
+        res.status(backup.code).json({ error: backup.error });
+      }
+    } catch (err) {
+      console.log(err);
+
+      res.status(500).send("Internal server error");
+    }
+  };
+
+  getOrders = async (req: Request, res: Response) => {
+    try {
+      const backup = await this.medServicesService.getOrders();
+
+      if (backup.code === 200) {
+        res.status(backup.code).json(backup.data);
+      } else {
+        res.status(backup.code).json({ error: backup.error });
+      }
+    } catch (err) {
+      console.log(err);
+
+      res.status(500).send("Internal server error");
+    }
+  };
+
+  deleteOrder = async (req: Request, res: Response) => {
+    try {
+      const backup = await this.medServicesService.deleteOrder(req.body);
+
+      if (backup.code === 200) {
+        res.status(backup.code).json();
       } else {
         res.status(backup.code).json({ error: backup.error });
       }

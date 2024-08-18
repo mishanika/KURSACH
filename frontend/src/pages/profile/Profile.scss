@@ -49,6 +49,7 @@
     border: 1px solid transparent;
     border-radius: 0.5rem;
     padding: 5px 15px;
+    margin: 0 0 0 -15px;
     cursor: pointer;
 
     &:hover {
@@ -70,7 +71,7 @@
     cursor: pointer;
   }
 
-  .friends-text {
+  .basket {
     font-size: 1.5rem;
     font-weight: 500;
     cursor: pointer;

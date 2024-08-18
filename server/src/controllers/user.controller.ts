@@ -28,9 +28,17 @@ class UserController {
       const isLogged = await this.userService.loginUser(req.body);
 
       if (isLogged.code === 200) {
-        res.status(isLogged.code).json({ error: "", accessToken: isLogged.accessToken, data: isLogged.data });
+        res
+          .status(isLogged.code)
+          .json({
+            error: "",
+            accessToken: isLogged.accessToken,
+            data: isLogged.data,
+          });
       } else {
-        res.status(isLogged.code).json({ error: isLogged.error, accessToken: isLogged.accessToken });
+        res
+          .status(isLogged.code)
+          .json({ error: isLogged.error, accessToken: isLogged.accessToken });
       }
     } catch (err) {
       console.log(err);
@@ -44,9 +52,13 @@ class UserController {
       const isAuth = await this.userService.authUser(req.body);
 
       if (isAuth.code === 200) {
-        res.status(isAuth.code).json({ error: "", accessToken: isAuth.accessToken });
+        res
+          .status(isAuth.code)
+          .json({ error: "", accessToken: isAuth.accessToken });
       } else {
-        res.status(isAuth.code).json({ error: isAuth.error, accessToken: isAuth.accessToken });
+        res
+          .status(isAuth.code)
+          .json({ error: isAuth.error, accessToken: isAuth.accessToken });
       }
     } catch (err) {
       console.log(err);
@@ -60,9 +72,13 @@ class UserController {
       const isAuth = await this.userService.authUser(req.body);
 
       if (isAuth.code === 200) {
-        res.status(isAuth.code).json({ error: "", accessToken: isAuth.accessToken });
+        res
+          .status(isAuth.code)
+          .json({ error: "", accessToken: isAuth.accessToken });
       } else {
-        res.status(isAuth.code).json({ error: isAuth.error, accessToken: isAuth.accessToken });
+        res
+          .status(isAuth.code)
+          .json({ error: isAuth.error, accessToken: isAuth.accessToken });
       }
     } catch (err) {
       console.log(err);
@@ -76,9 +92,13 @@ class UserController {
       const isLogout = await this.userService.logoutUser(req.body);
 
       if (isLogout.code === 200) {
-        res.status(isLogout.code).json({ error: "", accessToken: isLogout.accessToken });
+        res
+          .status(isLogout.code)
+          .json({ error: "", accessToken: isLogout.accessToken });
       } else {
-        res.status(isLogout.code).json({ error: isLogout.error, accessToken: isLogout.accessToken });
+        res
+          .status(isLogout.code)
+          .json({ error: isLogout.error, accessToken: isLogout.accessToken });
       }
     } catch (err) {
       console.log(err);
@@ -92,9 +112,17 @@ class UserController {
       const isGot = await this.userService.getProfile(req.body);
 
       if (isGot.code === 200) {
-        res.status(isGot.code).json({ error: "", accessToken: isGot.accessToken, data: isGot.data });
+        res
+          .status(isGot.code)
+          .json({
+            error: "",
+            accessToken: isGot.accessToken,
+            data: isGot.data,
+          });
       } else {
-        res.status(isGot.code).json({ error: isGot.error, accessToken: isGot.accessToken });
+        res
+          .status(isGot.code)
+          .json({ error: isGot.error, accessToken: isGot.accessToken });
       }
     } catch (err) {
       console.log(err);
@@ -108,9 +136,17 @@ class UserController {
       const isEdited = await this.userService.editProfile(req.body);
 
       if (isEdited.code === 200) {
-        res.status(isEdited.code).json({ error: "", accessToken: isEdited.accessToken, data: isEdited.data });
+        res
+          .status(isEdited.code)
+          .json({
+            error: "",
+            accessToken: isEdited.accessToken,
+            data: isEdited.data,
+          });
       } else {
-        res.status(isEdited.code).json({ error: isEdited.error, accessToken: isEdited.accessToken });
+        res
+          .status(isEdited.code)
+          .json({ error: isEdited.error, accessToken: isEdited.accessToken });
       }
     } catch (err) {
       console.log(err);
@@ -124,9 +160,17 @@ class UserController {
       const isChanged = await this.userService.changePhoto(req.body);
 
       if (isChanged.code === 200) {
-        res.status(isChanged.code).json({ error: "", accessToken: isChanged.accessToken, data: isChanged.data });
+        res
+          .status(isChanged.code)
+          .json({
+            error: "",
+            accessToken: isChanged.accessToken,
+            data: isChanged.data,
+          });
       } else {
-        res.status(isChanged.code).json({ error: isChanged.error, accessToken: isChanged.accessToken });
+        res
+          .status(isChanged.code)
+          .json({ error: isChanged.error, accessToken: isChanged.accessToken });
       }
     } catch (err) {
       console.log(err);
@@ -140,7 +184,9 @@ class UserController {
       const users = await this.userService.getUsers();
 
       if (users.code === 200) {
-        res.status(users.code).json({ error: "", accessToken: "", data: users.data.users });
+        res
+          .status(users.code)
+          .json({ error: "", accessToken: "", data: users.data.users });
       } else {
         res.status(users.code).json({ error: users.error });
       }
@@ -153,7 +199,7 @@ class UserController {
 
   delete = async (req: Request, res: Response) => {
     try {
-      const users = await this.userService.delete();
+      const users = await this.userService.delete(req.body);
 
       if (users.code === 200) {
         res.status(users.code).json();

@@ -8,6 +8,7 @@ import {
   LoginBody,
   ProfileBody,
   RegisterBody,
+  Room,
   ServiceResponse,
 } from "../types";
 import { v4 as uuid } from "uuid";
@@ -23,15 +24,35 @@ class RoomsService {
     return { error: "", code: 200, accessToken: "", data: { rooms: rooms } };
   };
 
-  create = async (): Promise<ServiceResponse> => {
+  create = async ({
+    number,
+    type,
+    description,
+    price,
+    photo,
+  }: Room): Promise<ServiceResponse> => {
+    await database.query(`
+      INSERT INTO Rooms (number, type, description, price, photo)
+      VALUES (${number}, '${type}', '${description}', ${price}, '${"photo"}')`);
     return { error: "", code: 200, accessToken: "", data: {} };
   };
 
-  update = async (): Promise<ServiceResponse> => {
+  update = async ({
+    number,
+    type,
+    description,
+    price,
+    photo,
+    id,
+  }: Room & { id: string }): Promise<ServiceResponse> => {
+    await database.query(`
+        UPDATE Rooms SET number = ${number}, description = '${description}', type = '${type}', price = ${price}, photo = '${photo}' WHERE id = '${id}'`);
     return { error: "", code: 200, accessToken: "", data: {} };
   };
 
-  delete = async (): Promise<ServiceResponse> => {
+  delete = async ({ id }: { id: string }): Promise<ServiceResponse> => {
+    await database.query(`
+      DELETE FROM Rooms WHERE id = ${id}`);
     return { error: "", code: 200, accessToken: "", data: {} };
   };
 
@@ -55,6 +76,31 @@ class RoomsService {
       INSERT INTO ClientRoom VALUES (${clientId}, ${roomId})`)
     ).recordset;
 
+    return { error: "", code: 200, accessToken: "", data: {} };
+  };
+
+  getRents = async (): Promise<ServiceResponse> => {
+    const data = await database.query(`
+    SELECT 
+    cr.id,
+    cr.client_id,
+    cr.room_id,
+    r.number as r_number,
+    r.photo as r_photo
+    FROM 
+        ClientRoom cr
+    JOIN 
+        Rooms r
+    ON 
+    cr.room_id = r.id;`);
+
+    return { error: "", code: 200, accessToken: "", data: data.recordset };
+  };
+
+  deleteRent = async ({ id }: { id: string }): Promise<ServiceResponse> => {
+    console.log(id);
+    await database.query(`
+      DELETE FROM ClientRoom WHERE id = ${id}`);
     return { error: "", code: 200, accessToken: "", data: {} };
   };
 }

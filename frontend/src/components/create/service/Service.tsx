@@ -36,7 +36,7 @@ const Service: React.FC = () => {
       accessToken: accessToken,
     };
 
-    const response = await fetch(`${url}/user/register`, {
+    const response = await fetch(`${url}/services/create`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json;charset=utf-8",

@@ -9,12 +9,8 @@ import { useState } from "react";
 export type Personal = {
   name: string;
   surname: string;
-  position: string;
-  schedule: string;
   salary: string;
-  password: string;
-  number: string;
-  type: string;
+  clientId: string;
 };
 
 const Personal: React.FC = () => {
@@ -23,12 +19,8 @@ const Personal: React.FC = () => {
   const [service, setService] = useState<Personal>({
     name: "",
     surname: "",
-    position: "",
-    schedule: "",
     salary: "",
-    password: "",
-    number: "",
-    type: "",
+    clientId: "",
   });
   const [keys, setKeys] = useState<IKey[]>(personalKeys);
 
@@ -40,7 +32,7 @@ const Personal: React.FC = () => {
       accessToken: accessToken,
     };
 
-    const response = await fetch(`${url}/user/register`, {
+    const response = await fetch(`${url}/personnel/create`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json;charset=utf-8",

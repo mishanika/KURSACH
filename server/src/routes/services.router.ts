@@ -14,7 +14,9 @@ class ServicesRouter {
     router.route("/create").post(this.servicesController.create);
     router.route("/update").post(this.servicesController.update);
     router.route("/delete").post(this.servicesController.delete);
-    router.route("/rent").post(this.servicesController.rent);
+    router.route("/order").post(this.servicesController.order);
+    router.route("/orders").get(this.servicesController.getOrders);
+    router.route("/delete-order").post(this.servicesController.deleteOrder);
 
     return router;
   }

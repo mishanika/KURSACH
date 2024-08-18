@@ -28,10 +28,10 @@ class PersonnelController {
 
   create = async (req: Request, res: Response) => {
     try {
-      const backup = await this.personnelService.create();
+      const backup = await this.personnelService.create(req.body);
 
       if (backup.code === 200) {
-        res.status(backup.code).json();
+        res.status(backup.code).json(backup.data);
       } else {
         res.status(backup.code).json({ error: backup.error });
       }
@@ -44,10 +44,10 @@ class PersonnelController {
 
   update = async (req: Request, res: Response) => {
     try {
-      const backup = await this.personnelService.update();
+      const backup = await this.personnelService.update(req.body);
 
       if (backup.code === 200) {
-        res.status(backup.code).json();
+        res.status(backup.code).json(backup.data);
       } else {
         res.status(backup.code).json({ error: backup.error });
       }
@@ -60,29 +60,10 @@ class PersonnelController {
 
   delete = async (req: Request, res: Response) => {
     try {
-      const backup = await this.personnelService.delete();
+      const backup = await this.personnelService.delete(req.body);
 
       if (backup.code === 200) {
-        res.status(backup.code).json();
-      } else {
-        res.status(backup.code).json({ error: backup.error });
-      }
-    } catch (err) {
-      console.log(err);
-
-      res.status(500).send("Internal server error");
-    }
-  };
-
-  rent = async (req: Request, res: Response) => {
-    try {
-      const { personnelId, accessToken } = req.body;
-      const { id } = decode(accessToken);
-
-      const backup = await this.personnelService.rent(personnelId, id);
-
-      if (backup.code === 200) {
-        res.status(backup.code).json("");
+        res.status(backup.code).json(backup.data);
       } else {
         res.status(backup.code).json({ error: backup.error });
       }

@@ -14,7 +14,6 @@ class MedScheduleRouter {
     router.route("/create").post(this.medScheduleController.create);
     router.route("/update").post(this.medScheduleController.update);
     router.route("/delete").post(this.medScheduleController.delete);
-    router.route("/rent").post(this.medScheduleController.rent);
 
     return router;
   }

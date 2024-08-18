@@ -6,6 +6,7 @@ node_modules
 .pnp.js
 .env
 firebase-credentials.json
+database.ts
 
 # testing
 /coverage

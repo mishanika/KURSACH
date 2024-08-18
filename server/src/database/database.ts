@@ -1,7 +1,7 @@
 import database, { ConnectionPool } from "mssql/msnodesqlv8";
 
 export const sqlConfig: database.config = {
-  server: "DESKTOP-E56NCP9",
+  server: "PC",
   driver: "msnodesqlv8",
   database: "kursach",
   user: "Misha",

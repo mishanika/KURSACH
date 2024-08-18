@@ -38,43 +38,43 @@
       overflow: hidden;
       text-overflow: clip;
     }
+  }
 
-    .id {
-      width: 5%;
-      max-width: 5%;
-    }
-    .name {
-      width: 10%;
-      max-width: 10%;
-    }
-    .surname {
-      width: 10%;
-      max-width: 10%;
-    }
-    .email {
-      width: 15%;
-      max-width: 15%;
-    }
-    .number {
-      width: 15%;
-      max-width: 15%;
-    }
-    .date {
-      width: 10%;
-      max-width: 10%;
-    }
-    .amount {
-      width: 5%;
-      max-width: 5%;
-    }
-    .type {
-      width: 10%;
-      max-width: 10%;
-    }
-    .details {
-      width: 20%;
-      max-width: 20%;
-    }
+  .id {
+    width: 5%;
+    max-width: 5%;
+  }
+  .name {
+    width: 10%;
+    max-width: 10%;
+  }
+  .surname {
+    width: 10%;
+    max-width: 10%;
+  }
+  .email {
+    width: 15%;
+    max-width: 15%;
+  }
+  .number {
+    width: 15%;
+    max-width: 15%;
+  }
+  .date {
+    width: 10%;
+    max-width: 10%;
+  }
+  .amount {
+    width: 5%;
+    max-width: 5%;
+  }
+  .type {
+    width: 10%;
+    max-width: 10%;
+  }
+  .details {
+    width: 20%;
+    max-width: 20%;
   }
 }
 .pagination {

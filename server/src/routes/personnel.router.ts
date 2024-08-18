@@ -14,7 +14,6 @@ class PersonnelRouter {
     router.route("/create").post(this.personnelController.create);
     router.route("/update").post(this.personnelController.update);
     router.route("/delete").post(this.personnelController.delete);
-    router.route("/rent").post(this.personnelController.rent);
 
     return router;
   }

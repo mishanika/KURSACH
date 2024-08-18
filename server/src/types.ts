@@ -58,3 +58,51 @@ export type EditPhotoBody = {
   photoName: string;
   accessToken: string;
 };
+
+export type Personal = {
+  name: string;
+  surname: string;
+  salary: string;
+  client_id: string;
+};
+
+export type Room = {
+  number: string;
+  type: string;
+  price: string;
+  photo: string;
+  description: string;
+};
+
+export type Service = {
+  name: string;
+  description: string;
+  duration: string;
+  price: string;
+  photo: string;
+  category: string;
+};
+
+export type MedService = {
+  name: string;
+  description: string;
+  duration: string;
+  price: string;
+  photo: string;
+  doctor_id: string;
+};
+
+export type MealSchedule = {
+  day: string;
+  breakfast: string;
+  dinner: string;
+  supper: string;
+};
+
+export type MedSchedule = {
+  date: string;
+  start: string;
+  end: string;
+  doctor_id: string;
+  procedure_id: string;
+};

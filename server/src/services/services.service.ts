@@ -1,4 +1,4 @@
-import { ServiceResponse } from "../types";
+import { Service, ServiceResponse } from "../types";
 
 import database from "../database/database";
 
@@ -16,49 +16,71 @@ class ServicesService {
     };
   };
 
-  create = async (): Promise<ServiceResponse> => {
-    // await database.query(`
-    //   INSERT INTO Services (name, surname, date_of_birth, address, number, email, photo, password, type, accessToken, refreshToken)
-    //   VALUES ('${name}', '${surname}', NULL, NULL, '${number}', '${email}', NULL, '${password}', '${
-    //   isAdmin ? type : "client"
-    // }', NULL, NULL)`);
+  create = async ({
+    name,
+    description,
+    duration,
+    price,
+    photo,
+    category,
+  }: Service): Promise<ServiceResponse> => {
+    await database.query(`
+      INSERT INTO Services (name, description, duration, price, photo, category)
+      VALUES ('${name}', '${description}',${duration}, ${price}, '${"photo"}',' ${category}')`);
     return { error: "", code: 200, accessToken: "", data: {} };
   };
 
-  update = async (): Promise<ServiceResponse> => {
-    // await database.query(`
-    //     UPDATE Services SET accessToken = '${accessToken}', refreshToken = '${refreshToken}' WHERE id = '${user.id}'`);
+  update = async ({
+    name,
+    description,
+    duration,
+    price,
+    photo,
+    category,
+    id,
+  }: Service & { id: string }): Promise<ServiceResponse> => {
+    await database.query(`
+        UPDATE Services SET name = '${name}', description = '${description}', duration = ${duration}, price = ${price}, photo = ${photo}, category = ${category} WHERE id = '${id}'`);
+    return { error: "", code: 200, accessToken: "", data: {} };
+  };
+
+  delete = async ({ id }: { id: string }): Promise<ServiceResponse> => {
+    await database.query(`
+      DELETE FROM Services WHERE id = ${id}`);
+    return { error: "", code: 200, accessToken: "", data: {} };
+  };
+
+  order = async (
+    serviceId: string,
+    clientId: string
+  ): Promise<ServiceResponse> => {
+    await database.query(`
+      INSERT INTO ClientService VALUES (${clientId}, ${serviceId})`);
 
     return { error: "", code: 200, accessToken: "", data: {} };
   };
 
-  delete = async (): Promise<ServiceResponse> => {
-    // await database.query(`
-    //     DELETE FROM Services WHERE id = '${user.id}'`);
+  getOrders = async (): Promise<ServiceResponse> => {
+    const data = await database.query(`
+    SELECT 
+    cs.id,
+    cs.client_id,
+    cs.service_id,
+    s.name AS s_name,
+    s.photo AS s_photo
+    FROM 
+        ClientService cs
+    JOIN 
+        Services s
+    ON 
+    cs.service_id = s.id;`);
 
-    return { error: "", code: 200, accessToken: "", data: {} };
+    return { error: "", code: 200, accessToken: "", data: data.recordset };
   };
 
-  rent = async (roomId: string, clientId: string): Promise<ServiceResponse> => {
-    const relations = (
-      await database.query(`
-      SELECT * FROM ClientRoom WHERE room_id = ${roomId}`)
-    ).recordset;
-
-    if (relations.length) {
-      return {
-        error: "Room is already rented",
-        code: 400,
-        accessToken: "",
-        data: {},
-      };
-    }
-
-    const services = (
-      await database.query(`
-      INSERT INTO ClientRoom VALUES (${clientId}, ${roomId})`)
-    ).recordset;
-
+  deleteOrder = async ({ id }: { id: string }): Promise<ServiceResponse> => {
+    await database.query(`
+      DELETE FROM ClientService WHERE id = ${id}`);
     return { error: "", code: 200, accessToken: "", data: {} };
   };
 }

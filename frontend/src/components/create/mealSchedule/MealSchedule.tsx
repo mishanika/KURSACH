@@ -18,14 +18,7 @@ export type MealSchedule = {
 const MealSchedule: React.FC = () => {
   const dispatch = useAppDispatch();
 
-  const [service, setService] = useState<MealSchedule>({
-    date: "",
-    start: "",
-    end: "",
-    procedure: "",
-    doctor_id: "",
-    procedure_id: "",
-  });
+  const [service, setService] = useState({});
   const [keys, setKeys] = useState<IKey[]>(mealKeys);
 
   const createService = async () => {

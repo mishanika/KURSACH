@@ -13,13 +13,11 @@ class MedScheduleController {
       const medSchedules = await this.medScheduleService.get();
 
       if (medSchedules.code === 200) {
-        res
-          .status(medSchedules.code)
-          .json({
-            error: "",
-            accessToken: "",
-            data: medSchedules.data.medSchedules,
-          });
+        res.status(medSchedules.code).json({
+          error: "",
+          accessToken: "",
+          data: medSchedules.data.medSchedules,
+        });
       } else {
         res.status(medSchedules.code).json({ error: medSchedules.error });
       }
@@ -32,7 +30,7 @@ class MedScheduleController {
 
   create = async (req: Request, res: Response) => {
     try {
-      const backup = await this.medScheduleService.create();
+      const backup = await this.medScheduleService.create(req.body);
 
       if (backup.code === 200) {
         res.status(backup.code).json();
@@ -48,7 +46,7 @@ class MedScheduleController {
 
   update = async (req: Request, res: Response) => {
     try {
-      const backup = await this.medScheduleService.update();
+      const backup = await this.medScheduleService.update(req.body);
 
       if (backup.code === 200) {
         res.status(backup.code).json();
@@ -64,29 +62,10 @@ class MedScheduleController {
 
   delete = async (req: Request, res: Response) => {
     try {
-      const backup = await this.medScheduleService.delete();
+      const backup = await this.medScheduleService.delete(req.body);
 
       if (backup.code === 200) {
         res.status(backup.code).json();
-      } else {
-        res.status(backup.code).json({ error: backup.error });
-      }
-    } catch (err) {
-      console.log(err);
-
-      res.status(500).send("Internal server error");
-    }
-  };
-
-  rent = async (req: Request, res: Response) => {
-    try {
-      const { medScheduleId, accessToken } = req.body;
-      const { id } = decode(accessToken);
-
-      const backup = await this.medScheduleService.rent(medScheduleId, id);
-
-      if (backup.code === 200) {
-        res.status(backup.code).json("");
       } else {
         res.status(backup.code).json({ error: backup.error });
       }

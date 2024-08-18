@@ -41,20 +41,25 @@ const Rooms: React.FC<Props> = ({ itemsPerPage }) => {
   }, []);
 
   return (
-    <div className="rooms-wrapper">
+    <div className="items-wrapper">
       {isSeen ? <Error /> : null}
       <div className="content">
         <div className="filters">
-          <div className="find" onClick={() => filter(rooms, filters, setFiltered)}>
+          <div
+            className="find"
+            onClick={() => filter(rooms, filters, setFiltered)}
+          >
             Find
           </div>
         </div>
         <div className="pagination-wrapper">
-          <div className="rooms">{currentItems.map(renderRooms)}</div>
+          <div className="items rooms">{currentItems.map(renderRooms)}</div>
           <ReactPaginate
             breakLabel="..."
             nextLabel="next >"
-            onPageChange={(e) => handlePageClick(e, itemsPerPage, filtered.length, setItemOffset)}
+            onPageChange={(e) =>
+              handlePageClick(e, itemsPerPage, filtered.length, setItemOffset)
+            }
             pageRangeDisplayed={5}
             pageCount={pageCount}
             previousLabel="< previous"

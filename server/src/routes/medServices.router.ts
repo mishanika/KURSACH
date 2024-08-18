@@ -14,7 +14,9 @@ class MedServicesRouter {
     router.route("/create").post(this.medServicesController.create);
     router.route("/update").post(this.medServicesController.update);
     router.route("/delete").post(this.medServicesController.delete);
-    router.route("/rent").post(this.medServicesController.rent);
+    router.route("/order").post(this.medServicesController.order);
+    router.route("/orders").get(this.medServicesController.getOrders);
+    router.route("/delete-order").post(this.medServicesController.deleteOrder);
 
     return router;
   }

@@ -5,7 +5,14 @@ import { RoomGet } from "../../pages/rooms/Rooms";
 import { url } from "../../utils/utils";
 import "./Room.scss";
 
-const Room: React.FC<RoomGet> = ({ id, number, type, price, photo, description }) => {
+const Room: React.FC<RoomGet> = ({
+  id,
+  number,
+  type,
+  price,
+  photo,
+  description,
+}) => {
   const dispatch = useAppDispatch();
 
   const rent = async () => {
@@ -29,7 +36,7 @@ const Room: React.FC<RoomGet> = ({ id, number, type, price, photo, description }
   };
 
   return (
-    <div className="room">
+    <div className="item room">
       <div className="photo">
         <img src={photo} alt="" />
       </div>

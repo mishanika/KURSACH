@@ -1,7 +1,7 @@
 export type IKey = {
   item: string;
   type: string;
-  data: string[];
+  optionsData: string[];
   route?: string;
 };
 
@@ -9,32 +9,32 @@ export const clientKeys: IKey[] = [
   {
     item: "Name",
     type: "input",
-    data: [],
+    optionsData: [],
   },
   {
     item: "Surname",
     type: "input",
-    data: [],
+    optionsData: [],
   },
   {
     item: "Email",
     type: "input",
-    data: [],
+    optionsData: [],
   },
   {
     item: "Password",
     type: "input",
-    data: [],
+    optionsData: [],
   },
   {
     item: "Number",
     type: "input",
-    data: [],
+    optionsData: [],
   },
   {
     item: "Type",
     type: "select",
-    data: ["client", "personal", "admin"],
+    optionsData: ["client", "personal", "admin"],
   },
 ];
 
@@ -42,32 +42,32 @@ export const serviceKeys: IKey[] = [
   {
     item: "Photo",
     type: "photoInput",
-    data: [],
+    optionsData: [],
   },
   {
     item: "Name",
     type: "input",
-    data: [],
+    optionsData: [],
   },
   {
     item: "Description",
     type: "textarea",
-    data: [],
+    optionsData: [],
   },
   {
     item: "Price",
     type: "input",
-    data: [],
+    optionsData: [],
   },
   {
     item: "Duration",
     type: "input",
-    data: [],
+    optionsData: [],
   },
   {
     item: "Category",
-    type: "select",
-    data: ["SPA", "Swimming", "Etc", "Etc", "Etc", "Etc"],
+    type: "input",
+    optionsData: [],
   },
 ];
 
@@ -75,29 +75,23 @@ export const personalKeys: IKey[] = [
   {
     item: "Name",
     type: "input",
-    data: [],
+    optionsData: [],
   },
   {
     item: "Surname",
     type: "input",
-    data: [],
-  },
-
-  {
-    item: "Schedule",
-    type: "input",
-    data: [],
+    optionsData: [],
   },
 
   {
     item: "Salary",
     type: "input",
-    data: [],
+    optionsData: [],
   },
   {
     item: "Client_id",
     type: "select",
-    data: [],
+    optionsData: [],
     route: "user",
   },
 ];
@@ -106,33 +100,33 @@ export const medKeys: IKey[] = [
   {
     item: "Name",
     type: "input",
-    data: [],
+    optionsData: [],
   },
   {
     item: "Description",
     type: "textarea",
-    data: [],
+    optionsData: [],
   },
   {
     item: "Duration",
     type: "input",
-    data: [],
+    optionsData: [],
   },
   {
     item: "Price",
     type: "input",
-    data: [],
+    optionsData: [],
   },
   {
     item: "Photo",
     type: "photoInput",
-    data: [],
+    optionsData: [],
   },
   {
     item: "Doctor_id",
     type: "select",
-    data: [],
-    route: "personnel/select",
+    optionsData: [],
+    route: "personnel",
   },
 ];
 
@@ -140,84 +134,87 @@ export const roomsKeys: IKey[] = [
   {
     item: "Number",
     type: "input",
-    data: [],
+    optionsData: [],
   },
   {
     item: "Type",
     type: "input",
-    data: ["One room", "Two rooms", "Three rooms"],
+    optionsData: ["One room", "Two rooms", "Three rooms"],
   },
   {
     item: "Price",
     type: "input",
-    data: [],
+    optionsData: [],
   },
   {
     item: "Photo",
     type: "photoInput",
-    data: [],
+    optionsData: [],
   },
   {
     item: "Description",
     type: "textarea",
-    data: [],
+    optionsData: [],
   },
 ];
 
 export const medScheduleKeys: IKey[] = [
   {
-    item: "Date",
-    type: "input",
-    data: [],
-  },
-  {
     item: "Start",
     type: "input",
-    data: [],
+    optionsData: [],
   },
   {
     item: "End",
     type: "input",
-    data: [],
+    optionsData: [],
   },
   {
     item: "Procedure",
     type: "input",
-    data: [],
+    optionsData: [],
   },
   {
     item: "Doctor_id",
-    type: "input",
-    data: [],
-    route: "personnel/select",
+    type: "select",
+    optionsData: [],
+    route: "personnel",
   },
   {
     item: "Procedure_id",
-    type: "input",
-    data: [],
-    route: "procedure/select",
+    type: "select",
+    optionsData: [],
+    route: "med-services",
   },
 ];
 
 export const mealKeys: IKey[] = [
   {
-    item: "Date",
-    type: "input",
-    data: [],
+    item: "Day",
+    type: "select",
+    optionsData: [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+      "Sunday",
+    ],
   },
   {
     item: "Breakfast",
     type: "input",
-    data: [],
+    optionsData: [],
   },
   {
     item: "Dinner",
     type: "input",
-    data: [],
+    optionsData: [],
   },
   {
     item: "Supper",
     type: "input",
-    data: [],
+    optionsData: [],
   },
 ];

@@ -1,13 +1,15 @@
 import ReactPaginate from "react-paginate";
 import "./PaginationWrapper.scss";
 import {
-  createElement,
+  Children,
+  cloneElement,
   PropsWithChildren,
   useEffect,
-  useRef,
   useState,
 } from "react";
 import { url } from "../../utils/utils";
+import { selectPagination } from "../../features/pagination/paginationSlice";
+import { useAppSelector } from "../../app/hooks";
 
 export type Client = {
   name: string;
@@ -18,17 +20,12 @@ export type Client = {
   type: string;
 };
 
-type Props = {
-  itemsPerPage: number;
-  route: string;
-};
-
-export const PaginationWrapper: React.FC<PropsWithChildren & Props> = ({
-  itemsPerPage,
-  route,
+export const PaginationWrapper: React.FC<PropsWithChildren> = ({
   children,
 }) => {
-  const [data, setData] = useState<{ [key: string]: string }[]>([]);
+  const { itemsPerPage, data } = useAppSelector(selectPagination);
+
+  // const [data, setData] = useState<{ [key: string]: string }[]>([]);
   const [itemOffset, setItemOffset] = useState(0);
   const [keys, setKeys] = useState<string[]>([]);
 
@@ -43,17 +40,18 @@ export const PaginationWrapper: React.FC<PropsWithChildren & Props> = ({
     setItemOffset(newOffset);
   };
 
-  const renderHeader = (item: string, index: number) => (
-    <div className="" key={index}>
-      {item}
-    </div>
-  );
+  // const renderHeader = (item: string, index: number) => (
+  //   <div className="" key={index}>
+  //     {item}
+  //   </div>
+  // );
 
-  useEffect(() => {
-    fetch(`${url}/${route}`)
-      .then((data) => data.json())
-      .then((data) => setData(data));
-  }, []);
+  // useEffect(() => {
+  //   console.log(`${url}/${route}`);
+  //   fetch(`${url}/${route}`)
+  //     .then((data) => data.json())
+  //     .then(({ data }) => setData(data));
+  // }, [route]);
 
   useEffect(() => {
     const tempData: string[] = [];
@@ -67,18 +65,17 @@ export const PaginationWrapper: React.FC<PropsWithChildren & Props> = ({
     setKeys(tempData);
   }, [data]);
 
+  const clonedChildren = Children.toArray(children);
+  const firstChild = clonedChildren[0];
+
   return (
     <>
       <div className="pagination-wrapper">
         <div className="table">
-          <div className="header">{keys.map(renderHeader)}</div>
-          {createElement(
-            "div",
-            {
-              data: currentItems,
-            },
-            children
-          )}
+          {/* <div className="header">{keys.map(renderHeader)}</div> */}
+          {cloneElement(firstChild as React.ReactElement, {
+            data: currentItems,
+          })}
         </div>
         <ReactPaginate
           breakLabel="..."
