@@ -325,7 +325,7 @@ class UserService {
     id,
   }: RegisterBody & { id: string }): Promise<ServiceResponse> => {
     await database.query(`
-        UPDATE Clients SET name = '${name}', surname = '${surname}', number = ${number}, email = ${email}, password = ${password}, type = ${type} WHERE id = '${id}'`);
+        UPDATE Clients SET name = '${name}', surname = '${surname}', number = '${number}', email = '${email}', password = '${password}', type = '${type}' WHERE id = ${id}`);
     return { error: "", code: 200, accessToken: "", data: {} };
   };
 

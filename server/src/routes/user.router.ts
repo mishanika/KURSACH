@@ -19,6 +19,8 @@ class UserRouter {
     router.route("/profile").post(this.userController.getProfile);
     router.route("/edit").post(this.userController.editProfile);
     router.route("/edit/photo").post(this.userController.changePhoto);
+    router.route("/update").post(this.userController.update);
+    router.route("/delete").post(this.userController.delete);
 
     return router;
   }

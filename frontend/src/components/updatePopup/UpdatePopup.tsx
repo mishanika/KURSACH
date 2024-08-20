@@ -62,7 +62,9 @@ export const UpdatePopup: React.FC<Props> = ({ keys, index, setPopup }) => {
 
     const temData = [...data];
     temData[index] = { ...item };
-    temData[index].photo = uploaded.photo;
+    if (temData[index].photo && uploaded) {
+      temData[index].photo = uploaded.photo;
+    }
 
     dispatch(setData(temData));
   };
